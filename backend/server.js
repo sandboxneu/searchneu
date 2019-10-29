@@ -686,7 +686,7 @@ app.post('/removeSection', wrap(async (req, res) => {
   const sectionHash = req.body.sectionHash;
 
   // Early exit if user is not watching this section.
-  if (userObject.watchingSections &&!userObject.watchingSections.includes(sectionHash)) {
+  if (userObject.watchingSections && !userObject.watchingSections.includes(sectionHash)) {
     res.send(JSON.stringify({
       status: 'Success',
     }));
