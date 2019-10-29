@@ -587,6 +587,14 @@ async function verifyRequestAndGetDbUser(req, res) {
     return null;
   }
 
+
+  if (!user.watchingSections) {
+    user.watchingSections = [];
+  }
+  if (!user.watchingClasses) {
+    user.watchingClasses = [];
+  }
+
   return user;
 }
 
@@ -608,6 +616,7 @@ app.post('/addSection', wrap(async (req, res) => {
     }));
     return;
   }
+
 
   const sectionHash = req.body.sectionHash;
 
@@ -677,7 +686,7 @@ app.post('/removeSection', wrap(async (req, res) => {
   const sectionHash = req.body.sectionHash;
 
   // Early exit if user is not watching this section.
-  if (!userObject.watchingSections.includes(sectionHash)) {
+  if (userObject.watchingSections &&!userObject.watchingSections.includes(sectionHash)) {
     res.send(JSON.stringify({
       status: 'Success',
     }));
