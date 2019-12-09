@@ -8,8 +8,11 @@ import URI from 'urijs';
 import fs from 'fs-extra';
 import rollbar from 'rollbar';
 import Amplitude from 'amplitude';
+import dotenv from 'dotenv';
 
 import commonMacros from '../common/abstractMacros';
+
+dotenv.config();
 
 const amplitude = new Amplitude(commonMacros.amplitudeToken);
 
@@ -44,13 +47,6 @@ while (1) {
   }
   break;
 }
-
-
-// This is the JSON object saved in /etc/searchneu/config.json
-// null = hasen't been loaded yet.
-// {} = it has been loaded, but nothing was found or the file doesn't exist or the file was {}
-// {...} = the file
-let envVariables = null;
 
 class Macros extends commonMacros {
   static parseNameWithSpaces(name) {
@@ -191,38 +187,6 @@ class Macros extends commonMacros {
     return n;
   }
 
-  static getAllEnvVariables() {
-    if (envVariables) {
-      return envVariables;
-    }
-
-    let configFileName = '/etc/searchneu/config.json';
-
-    // Yes, this is syncronous instead of the normal Node.js async style
-    // But keeping it sync helps simplify other parts of the code
-    // and it only takes 0.2 ms on my Mac.
-
-    let exists = fs.existsSync(configFileName);
-
-    // Also check /mnt/c/etc... in case we are running inside WSL.
-    if (!exists) {
-      configFileName = '/mnt/c/etc/searchneu/config.json';
-      exists = fs.existsSync(configFileName);
-    }
-
-    if (!exists) {
-      envVariables = {};
-    } else {
-      envVariables = JSON.parse(fs.readFileSync(configFileName));
-    }
-
-    return envVariables;
-  }
-
-  static getEnvVariable(name) {
-    return this.getAllEnvVariables()[name];
-  }
-
   // Log an event to amplitude. Same function signature as the function for the frontend.
   static async logAmplitudeEvent(type, event) {
     if (!Macros.PROD) {
@@ -250,7 +214,7 @@ class Macros extends commonMacros {
       return;
     }
 
-    const rollbarKey = Macros.getEnvVariable('rollbarPostServerItemToken');
+    const rollbarKey = process.env.rollbarPostServerItemToken;
 
     if (!rollbarKey) {
       console.log("Don't have rollbar so not logging error in prod?"); // eslint-disable-line no-console

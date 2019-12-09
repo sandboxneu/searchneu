@@ -25,7 +25,7 @@ class Notifyer {
       };
     }
 
-    const devUserFbId = macros.getEnvVariable('fbMessengerId');
+    const devUserFbId = process.env.fbMessengerId;
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
@@ -36,7 +36,7 @@ class Notifyer {
       };
     }
 
-    const token = macros.getEnvVariable('fbToken');
+    const token = process.env.fbToken;
 
     if (!token) {
       macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
@@ -87,7 +87,7 @@ class Notifyer {
   // Get some info about the user
   // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
   async getUserProfileInfo(sender) {
-    const token = macros.getEnvVariable('fbToken');
+    const token = process.env.fbToken;
 
     if (!token) {
       macros.warn("Don't have fbToken, not getting user info for", sender);
@@ -108,7 +108,7 @@ class Notifyer {
 
   test() {
     // currently on whatever your current id is
-    const devUserFbId = macros.getEnvVariable('fbMessengerId');
+    const devUserFbId = process.env.fbMessengerId;
 
     this.sendFBNotification(devUserFbId, 'test notification');
   }

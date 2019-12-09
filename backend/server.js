@@ -16,6 +16,7 @@ import moment from 'moment';
 import xhub from 'express-x-hub';
 import atob from 'atob';
 import _ from 'lodash';
+import dotenv from 'dotenv';
 import elastic from './elastic';
 
 import Request from './scrapers/request';
@@ -26,6 +27,7 @@ import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
 
+dotenv.config();
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
 
@@ -37,7 +39,7 @@ const app = express();
 // This does some crypto stuff to make this verification
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
-const fbAppSecret = macros.getEnvVariable('fbAppSecret');
+const fbAppSecret = process.env.fbAppSecret;
 
 
 // All of the requests/responses that haven't been pushed yet. Added here when
@@ -257,7 +259,7 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', (req, res) => {
-  const verifyToken = macros.getEnvVariable('fbVerifyToken');
+  const verifyToken = process.env.fbVerifyToken;
 
   if (req.query['hub.verify_token'] === verifyToken) {
     macros.log('yup!');
@@ -1074,7 +1076,7 @@ if (macros.DEV) {
 }
 
 
-const rollbarKey = macros.getEnvVariable('rollbarPostServerItemToken');
+const rollbarKey = process.env.rollbarPostServerItemToken;
 
 if (macros.PROD) {
   if (rollbarKey) {
