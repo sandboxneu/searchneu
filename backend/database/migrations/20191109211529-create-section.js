@@ -4,9 +4,9 @@ module.exports = {
     return queryInterface.createTable('Sections', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       seatsCapacity: {
         type: Sequelize.INTEGER,
@@ -32,12 +32,17 @@ module.exports = {
       crn: {
         type: Sequelize.STRING,
       },
-      classId: {
-        type: Sequelize.INTEGER,
+      meetings: {
+        type: Sequelize.JSON,
+      },
+      classHash: {
+        type: Sequelize.STRING,
         references: {
           model: 'Courses',
           key: 'id',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

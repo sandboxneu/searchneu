@@ -15,6 +15,7 @@ class Elastic {
     // Because we export an instance of this class, put the constants on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
+    this.REQUEST_ANALYTICS = 'request_analytics';
     // keep internal track of the available subjects
     this.subjects = null;
   }
@@ -39,6 +40,35 @@ class Elastic {
     await client.indices.create({
       index: indexName,
       body: mapping,
+    });
+  }
+
+  /**
+   * Ensures that an index exists. Creates it (with the given mapping) if it doesn't exist.
+   * @param  {string} indexName The index to insert into
+   * @param  {Object} mapping   The new elasticsearch index mapping(schema)
+   */
+  async ensureIndexExists(indexName, mapping) {
+    const results = await client.indices.exists({ index: indexName });
+
+    // If the index doesn't exist, create it.
+    if (results.statusCode !== 200) {
+      await client.indices.create({
+        index: indexName,
+        body: mapping,
+      });
+    }
+  }
+
+  /**
+   * Inserts a singular doc into an index.
+   * @param  {string} indexName The index to insert into
+   * @param  {Object} doc   The new doc to insert into the index.
+   */
+  insertDoc(indexName, doc) {
+    return client.index({
+      index: indexName,
+      body: doc,
     });
   }
 
@@ -203,7 +233,7 @@ class Elastic {
       'class.name.autocomplete',
       'class.subject^4',
       'class.classId^3',
-      'sections.meetings.profs',
+      'sections.profs',
       'class.crns',
       'employee.name^2',
       'employee.emails',

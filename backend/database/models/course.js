@@ -1,6 +1,12 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
+    id: {
+      allowNull: false,
+      autoIncrement: false,
+      primaryKey: true,
+      type: DataTypes.STRING,
+    },
     maxCredits: DataTypes.INTEGER,
     minCredits: DataTypes.INTEGER,
     desc: DataTypes.TEXT,
@@ -18,6 +24,14 @@ module.exports = (sequelize, DataTypes) => {
     optPrereqsFor: DataTypes.JSON,
     classAttributes: DataTypes.ARRAY(DataTypes.STRING),
   }, {});
+
+  Course.associate = (models) => {
+    Course.belongsToMany(models.User, {
+      through: 'FollowedCourse',
+      as: 'followers',
+      foreignKey: 'courseId',
+    });
+  };
 
   return Course;
 };

@@ -92,22 +92,14 @@ function days(meetingTime) {
 }
 
 /**
- * @param facultyMeetingTimes the output from
- * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-meeting-times-get
- * @return {*}
- * see https://github.com/jennydaman/searchneu/blob/1f86ac0a199cd1b59620beea8d58dddd9b7f0308/backend/tests/dataxe/getFacultyMeetingTimes/htlh2200.searchneu.json
- * for an example.
+ * @param facultyMeetingTimes meetingsFaculty object from searchresults, or /searchResults/getFacultyMeetingTimes
  */
-function meetings(xeResponse) {
-  if (Array.isArray(xeResponse.fmt)) {
-    xeResponse = xeResponse.fmt;
-  }
-  return xeResponse.map((m) => {
+function parseMeetings(facultyMeetingTimes) {
+  return facultyMeetingTimes.map((m) => {
     const meetingTime = m.meetingTime;
     return {
       startDate: mmddyyyyToDaysSinceEpoch(meetingTime.startDate),
       endDate: mmddyyyyToDaysSinceEpoch(meetingTime.endDate),
-      profs: m.faculty.map((o) => { return profName(o); }),
       where: meetingTime.buildingDescription ? `${meetingTime.buildingDescription} ${meetingTime.room}` : 'TBA',
       type: meetingTime.meetingTypeDescription,
       times: days(meetingTime),
@@ -115,4 +107,4 @@ function meetings(xeResponse) {
   });
 }
 
-export default meetings;
+export default { parseMeetings: parseMeetings, profName: profName };

@@ -7,7 +7,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import mapping from './classMapping.json';
+// import mapping from './classMapping.json';
 import elastic from '../../elastic';
 
 // Creates the search index for classes
@@ -57,7 +57,7 @@ class SearchIndex {
   async createSearchIndex(termDump) {
     const classes = this.attachSectionsToClasses(termDump);
 
-    await elastic.resetIndex(elastic.CLASS_INDEX, mapping);
+    //await elastic.resetIndex(elastic.CLASS_INDEX, mapping);
     macros.log('performing bulk insert to index classes');
     await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, classes);
     macros.log('indexed classes');

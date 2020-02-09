@@ -4,9 +4,9 @@ module.exports = {
     return queryInterface.createTable('Courses', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       maxCredits: {
         type: Sequelize.INTEGER,
@@ -19,8 +19,6 @@ module.exports = {
       },
       classId: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: 'classKeyIndex',
       },
       url: {
         type: Sequelize.STRING,
@@ -36,16 +34,12 @@ module.exports = {
       },
       termId: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: 'classKeyIndex',
       },
       host: {
         type: Sequelize.STRING,
       },
       subject: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: 'classKeyIndex',
       },
       prereqs: {
         type: Sequelize.JSON,
@@ -70,7 +64,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
+    }).then(() => { return queryInterface.addIndex('Courses', ['classId', 'termId', 'subject']); });
   },
   down: (queryInterface) => {
     return queryInterface.dropTable('Courses');

@@ -1,6 +1,9 @@
 import $ from 'cheerio';
 import _ from 'lodash';
+import Request from '../../request';
 import macros from '../../../macros';
+
+const request = new Request('util');
 
 function validCell(el) {
   return el.type === 'tag' && ['th', 'td'].includes(el.name);
@@ -59,7 +62,7 @@ function parseTable(table) {
       .filter(validCell)
       .map((el) => { return $(el).text(); });
     if (values.length >= heads.length) {
-      macros.log('warning, table row is longer than head, ignoring some content', heads, $(row).text());
+      macros.log('warning, table row is longer than head, ignoring some content');
     }
 
     ret.push(_.zipObject(heads, values));
@@ -67,6 +70,59 @@ function parseTable(table) {
   return ret;
 }
 
+async function getCookiesForSearch(termCode) {
+  // first, get the cookies
+  // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-clickcontinue-post
+  const clickContinue = await request.post({
+    url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/term/search?mode=search',
+    form: {
+      term: termCode,
+    },
+    cache: false,
+  });
+
+  if (clickContinue.body.regAllowed === false) {
+    macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
+  }
+
+  const cookiejar = request.jar();
+  for (const cookie of clickContinue.headers['set-cookie']) {
+    cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
+  }
+  return cookiejar;
+}
+
+function promiseMap(iterable, mapper, options) {
+  options = options || {};
+  let concurrency = options.concurrency || Infinity;
+
+  let index = 0;
+  const results = [];
+  const iterator = iterable[Symbol.iterator]();
+  const promises = [];
+
+  function wrappedMapper() {
+    const next = iterator.next();
+    if (next.done) return null;
+    const i = index++;
+    const mapped = mapper(next.value, i);
+    return Promise.resolve(mapped).then((resolved) => {
+      results[i] = resolved;
+      return wrappedMapper();
+    });
+  }
+
+  while (concurrency-- > 0) {
+    const promise = wrappedMapper();
+    if (promise) promises.push(promise);
+    else break;
+  }
+
+  return Promise.all(promises).then(() => { return results; });
+}
+
 export default {
   parseTable: parseTable,
+  getCookiesForSearch: getCookiesForSearch,
+  promiseMap: promiseMap,
 };
