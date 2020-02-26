@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Checkbox } from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
@@ -93,6 +93,10 @@ class Home extends React.Component {
       selectedTermId = LATEST_TERM;
     }
 
+    let hideUnavailableClasses = false;
+    if (window.localStorage.hideUnavailableClasses) {
+      hideUnavailableClasses = JSON.parse(window.localStorage.hideUnavailableClasses);
+    }
 
     this.state = {
       // The results of the search
@@ -120,6 +124,9 @@ class Home extends React.Component {
 
       // Keep track of whether the help modal is open or not.
       helpModalOpen: false,
+
+      // Keep track of whether we hide unavailable classes or not.
+      hideUnavailableClasses: hideUnavailableClasses,
     };
 
     // Timer used to debounce search queries
@@ -162,7 +169,7 @@ class Home extends React.Component {
 
     if (this.state.searchQuery) {
       macros.log('Going to search for', this.state.searchQuery, this.state.selectedTermId);
-      this.search(this.state.searchQuery, this.state.selectedTermId);
+      this.search(this.state.searchQuery, this.state.selectedTermId, this.state.hideUnavailableClasses);
     }
   }
 
@@ -187,7 +194,7 @@ class Home extends React.Component {
     }
 
     // Only search if the query is longer than 0
-    this.search(parsedUrl.searchQuery, newSelectedTermId);
+    this.search(parsedUrl.searchQuery, newSelectedTermId, this.state.hideUnavailableClasses);
 
     if (this.inputElement) {
       this.inputElement.value = parsedUrl.searchQuery;
@@ -208,7 +215,7 @@ class Home extends React.Component {
     // Scroll to the top
     document.body.scrollTop = 0;
 
-    this.search(query, this.state.selectedTermId);
+    this.search(query, this.state.selectedTermId, this.state.hideUnavailableClasses);
   }
 
   onInputFocus = () => {
@@ -227,7 +234,7 @@ class Home extends React.Component {
     //Resets url
     this.onSearchDebounced('');
 
-    this.search('', this.state.selectedTermId);
+    this.search('', this.state.selectedTermId, this.state.hideUnavailableClasses);
   }
 
   // On mobile, this is called whenever the user clicks enter.
@@ -283,7 +290,19 @@ class Home extends React.Component {
       selectedTermId: data.value,
     }, () => {
       if (this.state.searchQuery) {
-        this.search(this.state.searchQuery, data.value);
+        this.search(this.state.searchQuery, data.value, this.state.hideUnavailableClasses);
+      }
+    });
+  }
+
+  onHideClassesCheckboxChange = (event, data) => {
+    localStorage.hideUnavailableClasses = JSON.stringify(data.checked);
+
+    this.setState({
+      hideUnavailableClasses: data.checked,
+    }, () => {
+      if (this.state.searchQuery) {
+        this.search(this.state.searchQuery, this.state.selectedTermId, data.checked);
       }
     });
   }
@@ -291,7 +310,7 @@ class Home extends React.Component {
 
   // Called from ResultsLoader to load more
   loadMore = () => {
-    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
+    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.hideUnavailableClasses, this.state.results.length + 10);
   }
 
   // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
@@ -358,11 +377,11 @@ class Home extends React.Component {
     }
   }
 
-  async search(searchQuery, selectedTermId, termCount = 5) {
+  async search(searchQuery, selectedTermId, hideUnavailableClasses = false, termCount = 5) {
     this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-    const obj = await search.search(searchQuery, selectedTermId, termCount);
-    const results = obj.results;
+    const obj = await search.search(searchQuery, selectedTermId, termCount, hideUnavailableClasses);
+    let results = obj.results;
 
 
     if ((searchQuery + selectedTermId) !== this.currentQueryAndTerm) {
@@ -372,7 +391,6 @@ class Home extends React.Component {
 
     clearTimeout(this.hideSearchResultsTimeout);
 
-
     const newState = {
       showSearchResults: true,
       searchQuery: searchQuery,
@@ -381,6 +399,10 @@ class Home extends React.Component {
     };
 
     if (searchQuery.length !== 0) {
+      if (hideUnavailableClasses) {
+        results = results.filter((item) => item.sections && item.sections.length > 0);
+      }
+
       newState.results = results;
       newState.subjectName = obj.subjectName;
       newState.subjectCount = obj.subjectCount;
@@ -406,7 +428,7 @@ class Home extends React.Component {
   }
 
   searchFromUserAction(event) {
-    this.search(event.target.value, this.state.selectedTermId);
+    this.search(event.target.value, this.state.selectedTermId, this.state.hideUnavailableClasses);
   }
 
   updateUrl(selectedTermId, searchQuery) {
@@ -644,13 +666,18 @@ class Home extends React.Component {
                   />
                 </div>
                 <Dropdown
-                  fluid
                   selection
                   defaultValue={ this.state.selectedTermId }
                   placeholder='Spring 2018'
                   className='termDropdown'
                   options={ termDropDownOptions }
                   onChange={ this.onTermdropdownChange }
+                />
+                <Checkbox
+                  className='hideClassesCheckbox'
+                  label='Hide unavailable classes'
+                  defaultChecked={ this.state.hideUnavailableClasses }
+                  onChange={ this.onHideClassesCheckboxChange }
                 />
               </div>
               {attentionSection}

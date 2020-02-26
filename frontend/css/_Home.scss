@@ -343,6 +343,13 @@
     color: rgb(174, 69, 67) !important;
   }
 
+  .hideClassesCheckbox * {
+    display: inline-block;
+    color: rgb(174, 69, 67) !important;
+    font-weight: initial !important;
+    pointer-events: initial;
+  }
+
   .atentionContainer {
     max-width: 95%;
     margin-left: auto;
