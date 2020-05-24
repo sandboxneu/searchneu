@@ -1,35 +1,38 @@
-import React from 'react';
-import { Dropdown } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
 import { Option } from './filters';
 
 interface DropdownFilter {
   title: string,
   options: Option[],
   selected: string[],
-  setActive: (a:string[])=>void
+  setActive: (a:string)=>void
 }
 export default function DropdownFilter({
   title, options, selected, setActive,
 }: DropdownFilter) {
+  const [areOptionsFresh, setAreOptionsFresh] = useState(true)
+  useEffect(() => setAreOptionsFresh(true), [options])
+
+  function handleClickOnTheDropdown(e: React.FormEvent<HTMLSelectElement>) {
+    if (areOptionsFresh) {
+      // calculate the new options
+      setActive(e.currentTarget.value);
+      setAreOptionsFresh(false)
+    }
+  }
+
   return (
-    <div>
-      <div className='filter__title'>{title}</div>
-      <Dropdown
-        onChange={ (e, { value }) => {
-          setActive(value as string[]);
-        } }
-        value={ selected }
-        labeled
-        options={ options.map((o:Option) => ({
-          key:o.value, text:o.value, value:o.value, description: o.count,
-        })) }
-        search
-        multiple
-        selection
-        fluid
-        compact
-        lazyLoad
-      />
+    <div className='DropdownFilter'>
+      <span className='filter__title'>{title}</span>
+      <div className='DropdownFilter'>
+        <select value={ selected } onChange={ handleClickOnTheDropdown }>
+          {options.map(option => (
+            <option key={ option.value } value={ option.value }>
+              {option.value}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }
