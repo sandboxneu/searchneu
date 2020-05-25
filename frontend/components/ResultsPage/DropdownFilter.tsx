@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { pull } from 'lodash';
 import { Option } from './filters';
+import '../../css/_DropdownFilter.scss';
 
 interface DropdownFilter {
   title: string,
@@ -25,9 +26,10 @@ export default function DropdownFilter({
 
   return (
     <div className='DropdownFilter'>
-      <div className='filter__title'>{title}</div>
-      <div className='DropdownFilter'>
+      <div className='DropdownFilter__title'>{title}</div>
+      <div className='DropdownFilter_dropdown'>
         <input className='DropdownFilter__input' tabIndex={ 0 } type='text' />
+        <i className='DropdownFilter__icon' onClick={ handleClickOnTheDropdown } />
         <div className='DropdownFilter__selectable'>
           {options.map(option => (
             <div

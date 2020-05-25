@@ -1,0 +1,14 @@
+.DropdownFilter {
+  &__title {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  &__dropdown {
+    position: relative;
+  }
+
+  &__selectable {
+    position: absolute;
+  }
+}
