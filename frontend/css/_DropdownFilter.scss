@@ -11,4 +11,13 @@
   &__selectable {
     position: absolute;
   }
+
+  &__element {
+    background: white;
+    width: 100%;
+  }
+
+  &__elementText {
+    padding-right: 10px;
+  }
 }

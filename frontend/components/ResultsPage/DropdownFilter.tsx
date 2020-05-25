@@ -22,6 +22,7 @@ export default function DropdownFilter({
       // if any selected no longer exist, remove them (filter)
       setAreOptionsFresh(false)
     }
+    setIsOpen(!isOpen);
   }
 
   return (
@@ -29,9 +30,9 @@ export default function DropdownFilter({
       <div className='DropdownFilter__title'>{title}</div>
       <div className='DropdownFilter_dropdown'>
         <input className='DropdownFilter__input' tabIndex={ 0 } type='text' />
-        <i className='DropdownFilter__icon' onClick={ handleClickOnTheDropdown } />
+        <span className='DropdownFilter__icon' onClick={ handleClickOnTheDropdown }>Click here</span>
         <div className='DropdownFilter__selectable'>
-          {options.map(option => (
+          {isOpen ? options.map(option => (
             <div
               role='option'
               tabIndex={ -1 }
@@ -44,8 +45,7 @@ export default function DropdownFilter({
               <span className='DropdownFilter__elementText'>{option.value}</span>
               <span className='DropdownFilter__elementCount'>{option.count}</span>
             </div>
-          ))}
-
+          )) : null }
         </div>
       </div>
     </div>
