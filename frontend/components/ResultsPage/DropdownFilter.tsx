@@ -29,8 +29,8 @@ export default function DropdownFilter({
     <div className='DropdownFilter'>
       <div className='DropdownFilter__title'>{title}</div>
       <div className='DropdownFilter_dropdown'>
-        <input className='DropdownFilter__input' tabIndex={ 0 } type='text' />
-        <span className='DropdownFilter__icon' onClick={ handleClickOnTheDropdown }>Click here</span>
+        <input className='DropdownFilter__input' tabIndex={ 0 } type='text' placeholder='Choose one or multiple' />
+        <span className='DropdownFilter__icon' role='button' tabIndex={ 0 } onClick={ handleClickOnTheDropdown }>&#9660;</span>
         <div className='DropdownFilter__selectable'>
           {isOpen ? options.map(option => (
             <div

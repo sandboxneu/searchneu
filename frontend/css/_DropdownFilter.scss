@@ -4,6 +4,16 @@
     font-weight: bold;
   }
 
+  &__input {
+    height: 40px;
+    border: none;
+    margin-right: 10px;
+  }
+
+  &__icon:hover {
+    cursor: pointer;
+  }
+
   &__dropdown {
     position: relative;
   }
@@ -14,10 +24,12 @@
 
   &__element {
     background: white;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__elementText {
     padding-right: 10px;
+    width: 100%;
   }
 }
