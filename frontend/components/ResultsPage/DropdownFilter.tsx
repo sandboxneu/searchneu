@@ -13,8 +13,23 @@ export default function DropdownFilter({
   title, options, selected, setActive,
 }: DropdownFilter) {
   const [areOptionsFresh, setAreOptionsFresh] = useState(true)
+  const [filterString, setFilterString] = useState('');
   const [isOpen, setIsOpen] = useState(false)
-  useEffect(() => setAreOptionsFresh(true), [options])
+  useEffect(() => {
+    setAreOptionsFresh(true);
+  }, [options])
+  const dropdown = React.createRef<HTMLDivElement>();
+
+  function handleClickOutside(event) {
+    if (dropdown.current && !(dropdown.current.contains(event.target))) {
+      setIsOpen(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('mousedown', handleClickOutside)
+    return () => window.removeEventListener('mousedown', handleClickOutside)
+  });
 
   function handleClickOnTheDropdown() {
     if (areOptionsFresh) {
@@ -28,11 +43,18 @@ export default function DropdownFilter({
   return (
     <div className='DropdownFilter'>
       <div className='DropdownFilter__title'>{title}</div>
-      <div className='DropdownFilter_dropdown'>
-        <input className='DropdownFilter__input' tabIndex={ 0 } type='text' placeholder='Choose one or multiple' />
-        <span className='DropdownFilter__icon' role='button' tabIndex={ 0 } onClick={ handleClickOnTheDropdown }>&#9660;</span>
+      <div className='DropdownFilter_dropdown' ref={ dropdown } onClick={ handleClickOnTheDropdown }>
+        <input
+          className='DropdownFilter__input'
+          tabIndex={ 0 }
+          type='text'
+          value={ filterString }
+          placeholder='Choose one or multiple'
+          onChange={ (event) => setFilterString(event.target.value) }
+        />
+        <span className='DropdownFilter__icon' role='button' tabIndex={ 0 }>&#9660;</span>
         <div className='DropdownFilter__selectable'>
-          {isOpen ? options.map(option => (
+          {isOpen && options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase())).map((option) => (
             <div
               role='option'
               tabIndex={ -1 }
@@ -45,7 +67,7 @@ export default function DropdownFilter({
               <span className='DropdownFilter__elementText'>{option.value}</span>
               <span className='DropdownFilter__elementCount'>{option.count}</span>
             </div>
-          )) : null }
+          ))}
         </div>
       </div>
     </div>
