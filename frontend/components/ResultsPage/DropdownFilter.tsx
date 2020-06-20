@@ -44,15 +44,17 @@ export default function DropdownFilter({
     <div className='DropdownFilter'>
       <div className='DropdownFilter__title'>{title}</div>
       <div className='DropdownFilter_dropdown' ref={ dropdown } onClick={ handleClickOnTheDropdown }>
-        <input
-          className='DropdownFilter__input'
-          tabIndex={ 0 }
-          type='text'
-          value={ filterString }
-          placeholder='Choose one or multiple'
-          onChange={ (event) => setFilterString(event.target.value) }
-        />
-        <span className='DropdownFilter__icon' role='button' tabIndex={ 0 }>&#9660;</span>
+        <div className='DropdownFilter__search'>
+          <input
+            className='DropdownFilter__input'
+            tabIndex={ 1 }
+            type='text'
+            value={ filterString }
+            placeholder='Choose one or multiple'
+            onChange={ (event) => setFilterString(event.target.value) }
+          />
+          <span className='DropdownFilter__icon' role='button' tabIndex={ -1 }>&#9660;</span>
+        </div>
         <div className='DropdownFilter__selectable'>
           {isOpen && options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase())).map((option) => (
             <div
@@ -65,7 +67,7 @@ export default function DropdownFilter({
               onClick={ () => { setActive(selected.includes(option.value) ? pull(selected, option.value) : [...selected, option.value]) } }
             >
               <span className='DropdownFilter__elementText'>{option.value}</span>
-              <span className='DropdownFilter__elementCount'>{option.count}</span>
+              <span className='DropdownFilter__elementCount'>({option.count})</span>
             </div>
           ))}
         </div>

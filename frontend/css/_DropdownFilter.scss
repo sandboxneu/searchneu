@@ -4,11 +4,23 @@
     font-weight: bold;
   }
 
+  &__search {
+    background: white;
+  }
+
   &__input {
-    height: 40px;
+    height: 36px;
     border: none;
-    margin-right: 10px;
+    padding-left: 10px;
+    border-radius: 7px 7px;
     width: 200px;
+  }
+
+  &__icon {
+    position: relative;
+    padding-left: 10px;
+    width: 10px;
+    height: 9px;
   }
 
   &__icon:hover {
@@ -21,16 +33,28 @@
 
   &__selectable {
     position: absolute;
+    width: 300px;
+    overflow-y: scroll;
+    z-index: 100000000;
+    max-height: 200px;
   }
 
   &__element {
-    background: white;
     display: flex;
-    justify-content: space-between;
-    width: 200px;
+    padding-left: 10px;
+    justify-content: flex-start;
+    width: 238px;
+    height: 55px;
+    background: #fff;
+    border: 1px solid #f5f5f5;
+    box-sizing: border-box;
+    border-radius: 0;
+    cursor: pointer;
+    text-align: center;
   }
 
   &__elementText {
     padding-right: 10px;
+    display: inline-block;
   }
 }
