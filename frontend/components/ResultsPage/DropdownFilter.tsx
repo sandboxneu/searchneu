@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { pull } from 'lodash';
 import { Option } from './filters';
+import useClickOutside from './useClickOutside';
 import '../../css/_DropdownFilter.scss';
 
 interface DropdownFilter {
@@ -15,21 +16,14 @@ export default function DropdownFilter({
   const [areOptionsFresh, setAreOptionsFresh] = useState(true)
   const [filterString, setFilterString] = useState('');
   const [isOpen, setIsOpen] = useState(false)
+  
   useEffect(() => {
     setAreOptionsFresh(true);
   }, [options])
-  const dropdown = React.createRef<HTMLDivElement>();
-
-  function handleClickOutside(event) {
-    if (dropdown.current && !(dropdown.current.contains(event.target))) {
-      setIsOpen(false);
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('mousedown', handleClickOutside)
-    return () => window.removeEventListener('mousedown', handleClickOutside)
-  });
+  
+  const dropdown = useRef(null);
+  
+  useClickOutside(dropdown, isOpen, setIsOpen);
 
   function handleClickOnTheDropdown() {
     if (areOptionsFresh) {
