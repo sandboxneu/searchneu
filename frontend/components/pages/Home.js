@@ -114,7 +114,7 @@ export default function Home() {
             </div>
             {attentionSection}
           </div>
-        </div>ya
+        </div>
         <SplashPage />
         <Footer />
       </div>
