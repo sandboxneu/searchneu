@@ -6,7 +6,7 @@
 import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
-import dumpProcessor from '../dumpProcessor';
+import dumpProcessor from './dumpProcessor';
 
 
 // Main file for scraping

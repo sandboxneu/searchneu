@@ -4,7 +4,7 @@
  */
 
 import { Op } from 'sequelize';
-import { User, FollowedSection, FollowedCourse } from './database/models/index';
+import { User, FollowedSection, FollowedCourse } from '../database/models/index';
 
 
 // everybody needs a local copy of Postgres, PERIOD.

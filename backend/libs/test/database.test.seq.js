@@ -1,5 +1,5 @@
 import database from '../database';
-import db from '../database/models/index';
+import db from '../../database/models/index';
 
 const {
   User, Section, Course, FollowedSection, FollowedCourse,

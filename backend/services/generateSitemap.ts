@@ -3,8 +3,8 @@
  * See the license file in the root folder for details.
  */
 
-import macros from './macros';
-import { Course, Professor } from './database/models';
+import macros from '../macros';
+import { Course, Professor } from '../database/models';
 
 // This file generates https://searchneu.com/sitemap.xml
 // This helps SIGIFICANTLY with SEO on Google (and other search engines).

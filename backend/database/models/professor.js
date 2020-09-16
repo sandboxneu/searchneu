@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import elastic from '../../elastic';
+import elastic from '../../libs/elastic';
 
 module.exports = (sequelize, DataTypes) => {
   const Professor = sequelize.define('Professor', {

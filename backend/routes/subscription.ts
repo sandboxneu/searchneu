@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import _ from 'lodash';
 import macros from '../macros';
-import notifyer from '../notifyer';
-import database from '../database';
+import notifyer from '../libs/notifyer';
+import database from '../libs/database';
 import { Section, Course } from '../database/models/index';
 
 const subscriptionRouter = express.Router();

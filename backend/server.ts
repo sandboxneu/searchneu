@@ -15,7 +15,7 @@ import xhub from 'express-x-hub';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import graphql from './graphql';
-import generateSitemap from './generateSitemap';
+import generateSitemap from './services/generateSitemap';
 import searchRouter from './routes/search';
 import webhookRouter from './routes/webhook';
 import subscriptionRouter from './routes/subscription';

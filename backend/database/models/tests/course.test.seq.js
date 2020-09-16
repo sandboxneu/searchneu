@@ -1,5 +1,5 @@
 import { sequelize, Course, Section } from '../index';
-import elastic from '../../../elastic';
+import elastic from '../../../libs/elastic';
 
 beforeEach(async () => {
   await Section.truncate({ cascade: true, restartIdentity: true });

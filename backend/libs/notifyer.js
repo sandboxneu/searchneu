@@ -3,9 +3,9 @@
  * See the license file in the root folder for details.
  */
 
-import Request from './scrapers/request';
+import Request from '../scrapers/request';
 
-import macros from './macros';
+import macros from '../macros';
 
 const request = new Request('notifyer', {
   cache: false,

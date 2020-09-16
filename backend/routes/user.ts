@@ -1,6 +1,6 @@
 import express from 'express';
 import macros from '../macros';
-import database from '../database';
+import database from '../libs/database';
 
 const userRouter = express.Router()
 export default userRouter;

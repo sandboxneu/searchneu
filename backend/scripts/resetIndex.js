@@ -1,4 +1,4 @@
-import elastic from '../elastic';
+import elastic from '../libs/elastic';
 import classMap from '../scrapers/classes/classMapping.json';
 import employeeMap from '../scrapers/employees/employeeMapping.json';
 import macros from '../macros';

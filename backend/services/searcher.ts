@@ -4,15 +4,15 @@
  */
 
 import _ from 'lodash';
-import elastic, { Elastic } from './elastic';
-import { Course, Section } from './database/models/index';
-import HydrateSerializer from './database/serializers/hydrateSerializer';
-import macros from './macros';
+import elastic, { Elastic } from '../libs/elastic';
+import { Course, Section } from '../database/models/index';
+import HydrateSerializer from '../database/serializers/hydrateSerializer';
+import macros from '../macros';
 import {
   EsQuery, QueryNode, ExistsQuery, TermsQuery, TermQuery, LeafQuery, MATCH_ALL_QUERY, RangeQuery,
   EsFilterStruct, EsAggFilterStruct, FilterInput, FilterPrelude, AggFilterPrelude, SortInfo, Range,
   SearchResults, PartialResults, EsResultBody, EsMultiResult,
-} from './search_types';
+} from '../search_types';
 
 class Searcher {
   elastic: Elastic;

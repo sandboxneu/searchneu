@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import { sequelize, Professor } from '../index';
-import elastic from '../../../elastic';
+import elastic from '../../../libs/elastic';
 
 let expected;
 

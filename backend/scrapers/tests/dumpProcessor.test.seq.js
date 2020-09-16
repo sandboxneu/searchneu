@@ -4,8 +4,8 @@
  */
 
 import dumpProcessor from '../dumpProcessor';
-import db from '../database/models/index';
-import elastic from '../elastic';
+import db from '../../database/models/index';
+import elastic from '../../libs/elastic';
 
 jest.spyOn(elastic, 'bulkIndexFromMap').mockResolvedValue(true);
 

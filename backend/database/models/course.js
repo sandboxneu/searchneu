@@ -1,4 +1,4 @@
-import elastic from '../../elastic';
+import elastic from '../../libs/elastic';
 import ElasticCourseSerializer from '../serializers/elasticCourseSerializer';
 
 module.exports = (sequelize, DataTypes) => {

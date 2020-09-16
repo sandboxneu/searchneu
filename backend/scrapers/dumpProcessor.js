@@ -5,11 +5,11 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import path from 'path';
-import Keys from '../common/Keys';
-import macros from './macros';
+import Keys from '../../common/Keys';
+import macros from '../macros';
 import {
   Professor, Course, Section, Op, sequelize,
-} from './database/models/index';
+} from '../database/models/index';
 
 const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));

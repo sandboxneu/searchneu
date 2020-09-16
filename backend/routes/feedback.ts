@@ -1,5 +1,5 @@
 import express from 'express';
-import notifyer from '../notifyer';
+import notifyer from '../libs/notifyer';
 import macros from '../macros';
 
 const feedbackRouter = express.Router()

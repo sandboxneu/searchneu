@@ -4,8 +4,8 @@ import {
 import { Course as CourseType, Section as SectionType, Requisite } from '../types';
 import Updater, { Notification } from '../updater';
 import Keys from '../../common/Keys';
-import notifyer from '../notifyer';
-import dumpProcessor from '../dumpProcessor';
+import notifyer from '../libs/notifyer';
+import dumpProcessor from '../scrapers/dumpProcessor';
 import termParser from '../scrapers/classes/parsersxe/termParser';
 
 beforeEach(async () => {
