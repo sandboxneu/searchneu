@@ -7,12 +7,16 @@ import _ from 'lodash';
 import prisma from './prisma';
 import elastic, { Elastic } from './elastic';
 import HydrateSerializer from './database/serializers/hydrateSerializer';
+import HydrateCourseSerializer from './database/serializers/hydrateCourseSerializer';
 import macros from './macros';
 import {
   EsQuery, QueryNode, ExistsQuery, TermsQuery, TermQuery, LeafQuery, MATCH_ALL_QUERY, RangeQuery,
   EsFilterStruct, EsAggFilterStruct, FilterInput, FilterPrelude, AggFilterPrelude, SortInfo, Range,
-  SearchResults, PartialResults, EsResultBody, EsMultiResult,
+  SearchResults, SingleSearchResult, PartialResults, EsResultBody, EsMultiResult, AggResults,
 } from './search_types';
+import { Course, Section } from '@prisma/client';
+
+type CourseWithSections = Course & { sections: Section[] };
 
 class Searcher {
   elastic: Elastic;
@@ -246,6 +250,22 @@ class Searcher {
     };
   }
 
+  async getOneSearchResult(subject: string, classId: string, termId: string) : Promise<SingleSearchResult> {
+    const start = Date.now();
+    const result = await prisma.course.findOne({where: {uniqueCourseProps: {classId, subject, termId}}, include: {sections: true }});
+    macros.log(`Single search result: ${result}`);
+    const serializer = new HydrateCourseSerializer();
+    return {results: serializer.bulkSerialize([result]), resultCount: 1, took: 0, hydrateDuration: Date.now() - start, aggregations: this.getSingleResultAggs(result)};
+  }
+
+   getSingleResultAggs(result: CourseWithSections ) : AggResults {
+    const agg = { subject: [ {value: result.subject, count: 1 } ], 
+                  nupath: result.nupath.map(val => { return { value: val, count: 1 } }), 
+                  classType: [{value: result.sections[0].classType, count: 1}]};
+
+    return agg;
+  }
+
   /**
    * Search for classes and employees
    * @param  {string}  query  The search to query for
@@ -256,20 +276,26 @@ class Searcher {
   async search(query: string, termId: string, min: number, max: number, filters: FilterInput = {}): Promise<SearchResults> {
     await this.initializeSubjects();
     const start = Date.now();
-    // this can be re-written in a way that's less bad
-    const {
-      output, resultCount, took, aggregations,
-    } = await this.getSearchResults(query, termId, min, max, filters);
+    let results, resultCount, hydrateDuration, took, aggregations;
 
-    const startHydrate = Date.now();
-    const results = await (new HydrateSerializer()).bulkSerialize(output);
-
+      // if we know that the query is of the format of a course code, we want to return only one result
+      const courseCodePattern: RegExp = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
+      const patternResults = query.match(courseCodePattern);
+      if (patternResults && (this.getSubjects()).has(patternResults[1].toUpperCase())) {
+        ({results, resultCount, took, hydrateDuration, aggregations} = await this.getOneSearchResult(patternResults[1], patternResults[2], termId));
+      } else {
+        const searchResults = await this.getSearchResults(query, termId, min, max, filters);
+        ({ resultCount, took, aggregations} = searchResults);
+        const startHydrate = Date.now();
+        results = await (new HydrateSerializer()).bulkSerialize(searchResults.output);
+        hydrateDuration = Date.now() - startHydrate;
+      }
     return {
       searchContent: results,
       resultCount,
       took: {
         total: Date.now() - start,
-        hydrate: Date.now() - startHydrate,
+        hydrate: hydrateDuration,
         es: took,
       },
       aggregations,

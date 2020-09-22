@@ -190,6 +190,14 @@ export interface PartialResults {
   aggregations: AggResults;
 }
 
+export interface SingleSearchResult {
+  results: SearchResult[];
+  resultCount: number;
+  took: number;
+  hydrateDuration: number;
+  aggregations: AggResults;
+}
+
 export interface AggCount {
   value: string;
   count: number;
