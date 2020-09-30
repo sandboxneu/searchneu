@@ -10,8 +10,6 @@ COPY backend /app/backend
 COPY common /app/common
 COPY frontend /app/frontend
 COPY prisma /app/prisma
-RUN yarn db:migrate
-RUN yarn db:refresh
 RUN yarn build
 
 # FROM node:12.16-alpine
@@ -27,4 +25,6 @@ ENV NODE_ENV=prod
 # RUN yarn install --production
 
 EXPOSE 5000
+CMD ["yarn", "db:migrate"]
+CMD ["yarn", "db:refresh"]
 CMD ["yarn", "prod:start"]
