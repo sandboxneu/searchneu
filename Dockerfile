@@ -10,6 +10,7 @@ COPY backend /app/backend
 COPY common /app/common
 COPY frontend /app/frontend
 COPY prisma /app/prisma
+RUN yarn db:migrate
 RUN yarn db:refresh
 RUN yarn build
 
