@@ -26,7 +26,9 @@ async function prodSearch(query, termId, min, max, filters = {}) {
 
 describe('search', () => {
   it('returns specified class with class code query', async () => {
-    const firstResult = getFirstClassResult(await prodSearch('cs2500', '202110', 0, 1));
+    const results = await prodSearch('cs2500', '202110', 0, 10);
+    expect(results.data.results.length).toBe(1);
+    const firstResult = getFirstClassResult(results);
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202110/CS/2500');
   });
 
@@ -65,21 +67,34 @@ describe('search', () => {
 
   [['cs', '2500'], ['cs', '2501'], ['thtr', '1000']].forEach((item) => {
     it(`always analyzes course code  ${item.join(' ')} the same way regardless of string`, async () => {
-      const canonicalResult = getFirstClassResult(await prodSearch(item.join(' '), '202110', 0, 1));
+      const canonicalResults = await prodSearch(item.join(' '), '202110', 0, 10);
+      expect(canonicalResults.data.results.length).toBe(1);
+      const canonicalResult = getFirstClassResult(canonicalResults);
 
-      const firstResult = getFirstClassResult(await prodSearch(item.join(''), '202110', 0, 1));
+      const firstResults = await prodSearch(item.join(''), '202110', 0, 10);
+      expect(firstResults.data.results.length).toBe(1);
+      const firstResult = getFirstClassResult(firstResults);
       expect(Keys.getClassHash(firstResult)).toBe(Keys.getClassHash(canonicalResult));
 
-      const secondResult = getFirstClassResult(await prodSearch(item.join(' ').toUpperCase(), '202110', 0, 1));
+      const secondResults = await prodSearch(item.join(' ').toUpperCase(), '202110', 0, 10);
+      expect(secondResults.data.results.length).toBe(1);
+      const secondResult = getFirstClassResult(secondResults);
       expect(Keys.getClassHash(secondResult)).toBe(Keys.getClassHash(canonicalResult));
 
-      const thirdResult = getFirstClassResult(await prodSearch(item.join('').toUpperCase(), '202110', 0, 1));
+      const thirdResults = await prodSearch(item.join('').toUpperCase(), '202110', 0, 10);
+      expect(thirdResults.data.results.length).toBe(1);
+      const thirdResult = getFirstClassResult(thirdResults);
       expect(Keys.getClassHash(thirdResult)).toBe(Keys.getClassHash(canonicalResult));
     });
   });
 
+  it('returns no search results if given subject and course number that are not valid', async () => {
+    const results = await prodSearch('cs 2598', '202110', 0, 10);
+    expect(results.data.results).toEqual(0);
+  });
+
   it('returns search results of same subject if course code query', async () => {
-    const results = await prodSearch('cs2500', '202110', 0, 10);
+    const results = await prodSearch('cs', '202110', 0, 10);
     results.data.results.map((result) => { return expect(result.class.subject).toBe('CS'); });
   });
 
