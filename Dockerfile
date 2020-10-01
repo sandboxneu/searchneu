@@ -4,6 +4,7 @@ WORKDIR /app
 # Install deps
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
+COPY infrastructure/prod/start_prod.sh /app/start_prod.sh
 RUN yarn install --frozen-lockfile
 # Copy source
 COPY backend /app/backend
@@ -25,6 +26,4 @@ ENV NODE_ENV=prod
 # RUN yarn install --production
 
 EXPOSE 5000
-CMD ["yarn", "db:migrate"]
-CMD ["yarn", "db:refresh"]
-CMD ["yarn", "prod:start"]
+CMD ["bash", "start_prod.sh"]
