@@ -4,7 +4,6 @@ WORKDIR /app
 # Install deps
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
-COPY infrastructure/prod/start_prod.sh /app/start_prod.sh
 RUN yarn install --frozen-lockfile
 # Copy source
 COPY backend /app/backend
@@ -25,5 +24,8 @@ ENV dbCertPath /app/rds-ca-2019-root.pem
 ENV NODE_ENV=prod
 # RUN yarn install --production
 
+COPY infrastructure/prod /app
+ENTRYPOINT ["/app/start_prod.sh"]
+
 EXPOSE 5000
-CMD ["bash", "start_prod.sh"]
+CMD ["yarn", "prod:start"]
