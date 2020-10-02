@@ -25,7 +25,7 @@ ENV NODE_ENV=prod
 # RUN yarn install --production
 
 COPY infrastructure/prod /app
-ENTRYPOINT ["/app/start_prod.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 EXPOSE 5000
 CMD ["yarn", "prod:start"]
