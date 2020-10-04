@@ -24,6 +24,10 @@
     &.expanded {
       border-radius: 7px 7px 0 0;
     }
+
+    &.disabled {
+      background-color: #d3d3d3;
+    }
   }
 
   &__inputElement {
@@ -59,15 +63,35 @@
     &:focus {
       outline: none;
     }
+
+    &.disabled {
+      background-color: #d3d3d3;
+      pointer-events: none;
+    }
   }
 
   &__icon {
     position: absolute;
     top: 12px;
     right: 12px;
+    transition-duration: 0.5s;
+    transition-property: transform;
+    transform: rotate(0deg);
 
     &:hover {
       cursor: pointer;
+    }
+
+    &.rotated {
+      transition-duration: 0.5s;
+      transition-property: transform;
+      transform: rotate(180deg);
+    }
+
+    &.disabled {
+      &:hover {
+        cursor: default;
+      }
     }
   }
 
@@ -86,6 +110,19 @@
     max-height: 180px;
     border-radius: 0 0 7px 7px;
     width: 100%;
+  }
+
+  &__noResults {
+    display: flex;
+    padding-left: 10px;
+    justify-content: flex-start;
+    height: 55px;
+    background: #fff;
+    border: 1px solid #f5f5f5;
+    box-sizing: border-box;
+    border-radius: 0;
+    text-align: center;
+    align-items: center;
   }
 
   &__element {
