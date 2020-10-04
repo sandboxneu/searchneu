@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { pull } from 'lodash';
+import { without } from 'lodash';
 import { Option } from './filters';
 import useClickOutside from './useClickOutside';
 import '../../css/_DropdownFilter.scss';
@@ -49,7 +49,7 @@ export default function DropdownFilter({
                 src={ pillClose }
                 className='DropdownFilter__inputDelete'
                 alt='X to remove pill'
-                onClick={ () => setActive(pull(selected, selectElement)) }
+                onClick={ () => setActive(without(selected, selectElement)) }
               />
             </span>
           ))}
