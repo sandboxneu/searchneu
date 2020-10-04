@@ -16,23 +16,34 @@ export default function DropdownFilter({
   title, options, selected, setActive,
 }: DropdownFilter) {
   const [filterString, setFilterString] = useState('');
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const dropdown = useRef(null);
 
   useClickOutside(dropdown, isOpen, setIsOpen);
 
   function handleClickOnTheDropdown() {
-    setIsOpen(!isOpen);
+    if (selected.length != 0 || filteredOptions.length != 0) {
+      setIsOpen(!isOpen);
+    }
   }
 
+  function handleClickOnDropdownSearch(e) {
+    e.stopPropagation();
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+  }
+
+  const filteredOptions = options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase()) && !selected.includes(option.value));
+
   return (
-    <div className='DropdownFilter'>
+    <div className= 'DropdownFilter'>
       <div className='DropdownFilter__title'>{title}</div>
       <div className='DropdownFilter__dropdown' ref={ dropdown } role='button' tabIndex={ 0 } onClick={ handleClickOnTheDropdown }>
-        <div className={ `DropdownFilter__search ${isOpen ? 'expanded' : ''}` }>
+        <div className={ `DropdownFilter__search ${selected.length === 0 && filteredOptions.length === 0 ? 'disabled' : isOpen ? 'expanded' : ''}` }>
           {selected.map((selectElement) => (
-            <span className='DropdownFilter__inputElement'>
+            <span className='DropdownFilter__inputElement' onClick={ (e) => e.stopPropagation() }>
               { selectElement }
               <img
                 src={ pillClose }
@@ -43,17 +54,28 @@ export default function DropdownFilter({
             </span>
           ))}
           <input
-            className='DropdownFilter__input'
+            className={ `DropdownFilter__input ${selected.length === 0 && filteredOptions.length === 0 ? 'disabled' : ''}` }
             tabIndex={ 0 }
             type='text'
             value={ filterString }
-            placeholder={ selected.length === 0 ? 'Choose one or multiple' : '' }
+            placeholder={ selected.length === 0 ? (filteredOptions.length > 0 ? 'Choose one or multiple' : 'No filters apply') : '' }
             onChange={ (event) => setFilterString(event.target.value) }
+            onClick={ (e) => { e.stopPropagation(); if (selected.length != 0 || filteredOptions.length != 0) {setIsOpen(true);} } }
           />
-          <img src={ dropdownArrow } alt='Dropdown arrow' className='DropdownFilter__icon' />
+          <img src={ dropdownArrow } alt='Dropdown arrow' className={ `DropdownFilter__icon ${selected.length === 0 && filteredOptions.length === 0 ? 'disabled' : isOpen ? 'rotated' : ''}` } />
         </div>
         <div className='DropdownFilter__selectable'>
-          {isOpen && options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase()) && !selected.includes(option.value)).map((option) => (
+          {isOpen && (filteredOptions.length === 0 ?
+            <div
+              role='option'
+              aria-selected='true'
+              aria-checked='false'
+              className='DropdownFilter__noResults'
+              onClick={ (e) => e.stopPropagation() }
+            >
+              <span className='DropdownFilter__elementText'>{"No results found."}</span>
+            </div> :
+            filteredOptions.map((option) => (
             <div
               role='option'
               tabIndex={ -1 }
@@ -61,12 +83,14 @@ export default function DropdownFilter({
               aria-checked='false'
               className='DropdownFilter__element'
               key={ option.value }
-              onClick={ () => { setActive(selected.includes(option.value) ? pull(selected, option.value) : [...selected, option.value]) } }
+              onClick={ (e) => { setActive(selected.includes(option.value) ? pull(selected, option.value) : [...selected, option.value]);
+              setFilterString('');
+              e.stopPropagation(); } }
             >
               <span className='DropdownFilter__elementText'>{option.value}</span>
               <span className='DropdownFilter__elementCount'>({option.count})</span>
             </div>
-          ))}
+          )))}
         </div>
       </div>
     </div>
