@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { without } from 'lodash';
+import { without, pull } from 'lodash';
 import { Option } from './filters';
 import useClickOutside from './useClickOutside';
 import '../../css/_DropdownFilter.scss';
@@ -20,30 +20,42 @@ export default function DropdownFilter({
 
   const dropdown = useRef(null);
 
+  const filteredOptions = options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase()) && !selected.includes(option.value));
+
   useClickOutside(dropdown, isOpen, setIsOpen);
 
   function handleClickOnTheDropdown() {
-    if (selected.length != 0 || filteredOptions.length != 0) {
+    if (selected.length !== 0 || filteredOptions.length !== 0) {
       setIsOpen(!isOpen);
     }
   }
 
-  function handleClickOnDropdownSearch(e) {
-    e.stopPropagation();
-    if (!isOpen) {
-      setIsOpen(true);
+  function getDropdownStatus() {
+    if (selected.length === 0 && filteredOptions.length === 0) {
+      return 'disabled';
+    } if (isOpen) {
+      return 'expanded';
     }
+    return '';
   }
 
-  const filteredOptions = options.filter((option) => option.value.toUpperCase().includes(filterString.toUpperCase()) && !selected.includes(option.value));
+  function choosePlaceholder() {
+    if (selected.length === 0) {
+      if (filteredOptions.length > 0) {
+        return 'Choose one or multiple';
+      }
+      return 'No filters apply';
+    }
+    return '';
+  }
 
   return (
-    <div className= 'DropdownFilter'>
+    <div className='DropdownFilter'>
       <div className='DropdownFilter__title'>{title}</div>
       <div className='DropdownFilter__dropdown' ref={ dropdown } role='button' tabIndex={ 0 } onClick={ handleClickOnTheDropdown }>
-        <div className={ `DropdownFilter__search ${selected.length === 0 && filteredOptions.length === 0 ? 'disabled' : isOpen ? 'expanded' : ''}` }>
+        <div className={ `DropdownFilter__search ${getDropdownStatus()}` }>
           {selected.map((selectElement) => (
-            <span className='DropdownFilter__inputElement' onClick={ (e) => e.stopPropagation() }>
+            <span className='DropdownFilter__inputElement' role='button' tabIndex={ 0 } onClick={ (e) => e.stopPropagation() }>
               { selectElement }
               <img
                 src={ pillClose }
@@ -58,39 +70,44 @@ export default function DropdownFilter({
             tabIndex={ 0 }
             type='text'
             value={ filterString }
-            placeholder={ selected.length === 0 ? (filteredOptions.length > 0 ? 'Choose one or multiple' : 'No filters apply') : '' }
+            placeholder={ choosePlaceholder() }
             onChange={ (event) => setFilterString(event.target.value) }
-            onClick={ (e) => { e.stopPropagation(); if (selected.length != 0 || filteredOptions.length != 0) {setIsOpen(true);} } }
+            onClick={ (e) => { e.stopPropagation(); if (selected.length !== 0 || filteredOptions.length !== 0) { setIsOpen(true); } } }
           />
-          <img src={ dropdownArrow } alt='Dropdown arrow' className={ `DropdownFilter__icon ${selected.length === 0 && filteredOptions.length === 0 ? 'disabled' : isOpen ? 'rotated' : ''}` } />
+          <img src={ dropdownArrow } alt='Dropdown arrow' className={ `DropdownFilter__icon ${getDropdownStatus()}` } />
         </div>
         <div className='DropdownFilter__selectable'>
-          {isOpen && (filteredOptions.length === 0 ?
-            <div
-              role='option'
-              aria-selected='true'
-              aria-checked='false'
-              className='DropdownFilter__noResults'
-              onClick={ (e) => e.stopPropagation() }
-            >
-              <span className='DropdownFilter__elementText'>{"No results found."}</span>
-            </div> :
-            filteredOptions.map((option) => (
-            <div
-              role='option'
-              tabIndex={ -1 }
-              aria-selected='true'
-              aria-checked='false'
-              className='DropdownFilter__element'
-              key={ option.value }
-              onClick={ (e) => { setActive(selected.includes(option.value) ? pull(selected, option.value) : [...selected, option.value]);
-              setFilterString('');
-              e.stopPropagation(); } }
-            >
-              <span className='DropdownFilter__elementText'>{option.value}</span>
-              <span className='DropdownFilter__elementCount'>({option.count})</span>
-            </div>
-          )))}
+          {isOpen && (filteredOptions.length === 0
+            ? (
+              <div
+                role='option'
+                tabIndex={ 0 }
+                aria-selected='true'
+                aria-checked='false'
+                className='DropdownFilter__noResults'
+                onClick={ (e) => e.stopPropagation() }
+              >
+                <span className='DropdownFilter__elementText'>No results found.</span>
+              </div>
+            )
+            : filteredOptions.map((option) => (
+              <div
+                role='option'
+                tabIndex={ -1 }
+                aria-selected='true'
+                aria-checked='false'
+                className='DropdownFilter__element'
+                key={ option.value }
+                onClick={ (e) => {
+                  setActive(selected.includes(option.value) ? pull(selected, option.value) : [...selected, option.value]);
+                  setFilterString('');
+                  e.stopPropagation();
+                } }
+              >
+                <span className='DropdownFilter__elementText'>{option.value}</span>
+                <span className='DropdownFilter__elementCount'>({option.count})</span>
+              </div>
+            )))}
         </div>
       </div>
     </div>
