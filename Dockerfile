@@ -10,7 +10,6 @@ COPY backend /app/backend
 COPY common /app/common
 COPY frontend /app/frontend
 COPY prisma /app/prisma
-RUN yarn db:refresh
 RUN yarn build
 
 # FROM node:12.16-alpine
@@ -24,6 +23,9 @@ ENV dbCertPath /app/rds-ca-2019-root.pem
 # COPY --from=build /app/public ./public
 ENV NODE_ENV=prod
 # RUN yarn install --production
+
+COPY infrastructure/prod /app
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 EXPOSE 5000
 CMD ["yarn", "prod:start"]

@@ -177,24 +177,9 @@ locals {
       description = "Elasticsearch hostname"
     },
     {
-      name        = "dbUsername"
-      value       = aws_db_instance.default.username
-      description = "Postgres database username"
-    },
-    {
-      name        = "dbPassword"
-      value       = aws_db_instance.default.password
-      description = "Postgres database password"
-    },
-    {
-      name        = "dbName"
-      value       = aws_db_instance.default.name
-      description = "Postgres database name"
-    },
-    {
-      name        = "dbHost"
+      name        = "DATABASE_URL"
       value       = aws_db_instance.default.address
-      description = "Postgres database host"
+      description = "Postgres database URL"
     }
   ])
   # For some insane reason the secrets list is unstable. We have to sort it to prevent recreating the params every time.
@@ -221,7 +206,7 @@ locals {
 # Maybe use a KMS for better security?
 # Also this module https://github.com/cloudposse/terraform-aws-ssm-parameter-store is nice but not up to date with Terraform 0.12
 resource "aws_ssm_parameter" "default" {
-  count           = length(var.secrets) + 5
+  count           = length(var.secrets) + 2
   name            = "/${var.stage}/${lookup(local.all_secrets[count.index], "name")}"
   description     = lookup(local.all_secrets[count.index], "description", lookup(local.all_secrets[count.index], "name"))
   type            = "SecureString"
