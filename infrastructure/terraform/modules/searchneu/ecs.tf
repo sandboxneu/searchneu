@@ -177,11 +177,6 @@ locals {
       description = "Elasticsearch hostname"
     },
     {
-      name        = "DATABASE_URL"
-      value       = aws_db_instance.default.address
-      description = "Postgres database URL"
-    },
-    {
       name        = "dbUsername"
       value       = aws_db_instance.default.username
       description = "Postgres database username"
@@ -200,6 +195,11 @@ locals {
       name        = "dbHost"
       value       = aws_db_instance.default.address
       description = "Postgres database host"
+    },
+    {
+      name        = "DATABASE_URL"
+      value       = aws_db_instance.default.address
+      description = "Postgres database URL"
     }
   ])
   # For some insane reason the secrets list is unstable. We have to sort it to prevent recreating the params every time.
