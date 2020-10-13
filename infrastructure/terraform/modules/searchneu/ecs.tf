@@ -226,7 +226,7 @@ locals {
 # Maybe use a KMS for better security?
 # Also this module https://github.com/cloudposse/terraform-aws-ssm-parameter-store is nice but not up to date with Terraform 0.12
 resource "aws_ssm_parameter" "default" {
-  count           = length(var.secrets) + 5
+  count           = length(var.secrets) + 6
   name            = "/${var.stage}/${lookup(local.all_secrets[count.index], "name")}"
   description     = lookup(local.all_secrets[count.index], "description", lookup(local.all_secrets[count.index], "name"))
   type            = "SecureString"
