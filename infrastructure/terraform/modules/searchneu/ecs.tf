@@ -171,11 +171,11 @@ resource "aws_ecs_service" "update" {
 
 locals {
   all_secrets_unsorted = concat(var.secrets, [
-    {
-      name        = "elasticURL"
-      value       = "https://${module.elasticsearch.domain_endpoint}"
-      description = "Elasticsearch hostname"
-    },
+    # {
+    #   name        = "elasticURL"
+    #   value       = "https://${module.elasticsearch.domain_endpoint}"
+    #   description = "Elasticsearch hostname"
+    # },
     {
       name        = "DATABASE_URL"
       value       = aws_db_instance.default.address
