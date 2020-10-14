@@ -20,12 +20,23 @@ class TermParser {
    * @returns Object {classes, sections} where classes is a list of class data
    */
   async parseTerm(termId) {
-    const courseSearchResults = await this.requestsClassesForTerm(termId);
-    const classes = await pMap(courseSearchResults,
-      (a) => { return ClassParser.parseClassFromSearchResult(a, termId); },
-      { concurrency: 500 });
+    // const courseSearchResults = await this.requestsClassesForTerm(termId);
+    // const classes = await pMap(courseSearchResults,
+    //   (a) => { return ClassParser.parseClassFromSearchResult(a, termId); },
+    //   { concurrency: 500 });
 
     const sections = await this.parseSections(termId);
+    const courseIdentifiers = {};
+    sections.forEach(section => {
+      const termId = section.termId;
+      const subject = section.subject;
+      const courseCode = section.classId;
+      courseIdentifiers[this.getCourseKey(termId, subject, courseCode)] = {termId, subject, courseCode};
+    });
+
+    const classes = await pMap(Object.values(courseIdentifiers), ({termId, subject, courseCode}) => {
+      return ClassParser.parseClass(termId, subject, courseCode);
+    }, {concurrency: 500});
     macros.log(`scraped ${classes.length} classes and ${sections.length} sections`);
     return { classes: classes, sections: sections };
   }
@@ -95,6 +106,10 @@ class TermParser {
       macros.error(`Could not get section data for ${termCode}`);
     }
     return Promise.reject();
+  }
+
+  getCourseKey(termId, subject, courseCode) {
+    return `neu.edu/${termId}/${subject}/${courseCode}`;
   }
 
   /**
