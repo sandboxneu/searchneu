@@ -10,6 +10,8 @@ import Request from '../../request';
 import PrereqParser from './prereqParser';
 import util from './util';
 import SubjectAbbreviationParser from './subjectAbbreviationParser';
+import macros from '../../../macros';
+
 
 const request = new Request('classParser');
 

@@ -11,6 +11,7 @@ import TermListParser from './termListParser';
 import TermParser from './termParser';
 import ClassParser from './classParser';
 import SectionParser from './sectionParser';
+import SubjectAbbreviationParser from './subjectAbbreviationParser';
 
 const request = new Request('bannerv9Parser');
 
@@ -19,11 +20,11 @@ const request = new Request('bannerv9Parser');
  */
 class Bannerv9Parser {
   async main(termsUrl) {
-    const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
-    const suffixes = ['10', '30', '40', '50', '60'];
-    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
-    macros.log(`scraping terms: ${undergradIds}`);
-    return this.scrapeTerms(undergradIds);
+    // const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
+    // const suffixes = ['10', '30', '40', '50', '60'];
+    // const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
+    // macros.log(`scraping terms: ${undergradIds}`);
+    return this.scrapeTerms(['202110']);
   }
 
   /**
@@ -43,7 +44,9 @@ class Bannerv9Parser {
    */
   async scrapeTerms(termIds) {
     const termData = await pMap(termIds, (p) => { return TermParser.parseTerm(p); });
-    return _.mergeWith(...termData, (a, b) => { return a.concat(b); });
+    const termDump = _.mergeWith(...termData, (a, b) => { return a.concat(b); });
+    termDump.subjects = await SubjectAbbreviationParser.getSubjectAbbreviations(termIds[0]);
+    return termDump;
   }
 
   /**
