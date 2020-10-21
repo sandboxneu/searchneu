@@ -5,6 +5,7 @@
 
 import _ from 'lodash';
 import pMap from 'p-map';
+import Keys from '../../../../common/Keys';
 import macros from '../../../macros';
 import Request from '../../request';
 import ClassParser from './classParser';
@@ -31,7 +32,7 @@ class TermParser {
       const termId = section.termId;
       const subject = section.subject;
       const courseCode = section.classId;
-      courseIdentifiers[this.getCourseKey(termId, subject, courseCode)] = {termId, subject, courseCode};
+      courseIdentifiers[Keys.getClassHash({ termId, subject, courseCode, host: 'neu.edu' })] = { termId, subject, courseCode };
     });
 
     const classes = await pMap(Object.values(courseIdentifiers), ({termId, subject, courseCode}) => {
