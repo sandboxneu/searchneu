@@ -4,6 +4,7 @@
  */
 
 import he from 'he';
+import Keys from '../../../../common/Keys';
 import Request from '../../request';
 import PrereqParser from './prereqParser';
 import util from './util';
@@ -140,6 +141,22 @@ class ClassParser {
       cache: false,
     });
     return req;
+  }
+
+  getAllCourseRefs(course) {
+    
+  }
+
+  getRefsFromJson(obj, termId) {
+    return obj.values.reduce((acc, val) => {
+      if (val.type) {
+        return { ...this.getRefsFromJson(val, termId), ...acc };
+      } else {
+        const subject = obj.subject;
+        const classId = obj.classId;
+        return { ...acc, [Keys.getClassHash({ subject, classId, termId, host: 'neu.edu' })]: { subject, classId, termId } };
+      }
+    }, {});
   }
 }
 
