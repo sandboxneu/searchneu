@@ -5,6 +5,7 @@
 
 import he from 'he';
 import Keys from '../../../../common/Keys';
+import macros from '../../../macros';
 import Request from '../../request';
 import PrereqParser from './prereqParser';
 import util from './util';
@@ -144,10 +145,23 @@ class ClassParser {
   }
 
   getAllCourseRefs(course) {
-    
+    const termId = course.termId;
+    const prereqRefs = this.getRefsFromJson(course.prereqs, termId);
+    const coreqRefs = this.getRefsFromJson(course.coreqs, termId);
+    const prereqForRefs = this.getRefsFromJson(course.prereqsFor, termId);
+    const optPrereqForRefs = this.getRefsFromJson(course.optPrereqsFor, termId);
+
+    return {
+      ...prereqRefs,
+      ...coreqRefs,
+      ...prereqForRefs,
+      ...optPrereqForRefs,
+    };
   }
 
   getRefsFromJson(obj, termId) {
+    if (!obj) return {};
+
     return obj.values.reduce((acc, val) => {
       if (val.type) {
         return { ...this.getRefsFromJson(val, termId), ...acc };
