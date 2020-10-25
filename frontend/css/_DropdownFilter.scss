@@ -72,20 +72,24 @@
 
   &__icon {
     position: absolute;
-    top: 12px;
+    //top: 12px;
+    top: 14px;
     right: 12px;
-    transition-duration: 0s;
+    transition-duration: 0.5s;
     transition-property: transform;
     transform: rotate(0deg);
+    transform-origin: top center;
 
     &:hover {
       cursor: pointer;
     }
 
     &.expanded {
-      transition-duration: 0s;
+      top: 17px;
+      transition-duration: 0.5s;
       transition-property: transform;
       transform: rotate(180deg);
+      transform-origin: top center;
     }
 
     &.disabled {
