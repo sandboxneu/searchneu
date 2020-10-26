@@ -38,7 +38,7 @@ class ClassParser {
       jar: cookiejar,
       json: true,
     });
-    if (req.body.success) {
+    if (req.body.success && req.body.data && req.body.data[0]) {
       return this.parseClassFromSearchResult(req.body.data[0], termId);
     }
     return false;
@@ -51,7 +51,6 @@ class ClassParser {
    */
   async parseClassFromSearchResult(SR, termId) {
     const subjectAbbreviations = await SubjectAbbreviationParser.getSubjectAbbreviations(termId);
-
     const { subjectCode, courseNumber } = SR;
     const description = await this.getDescription(termId, subjectCode, courseNumber);
     const prereqs = await this.getPrereqs(termId, subjectCode, courseNumber, subjectAbbreviations);
@@ -166,9 +165,12 @@ class ClassParser {
       if (val.type) {
         return { ...this.getRefsFromJson(val, termId), ...acc };
       } else {
-        const subject = obj.subject;
-        const classId = obj.classId;
-        return { ...acc, [Keys.getClassHash({ subject, classId, termId, host: 'neu.edu' })]: { subject, classId, termId } };
+        const {subject, classId} = val;
+        if (!subject || !classId) {
+          return acc;
+        } else {
+          return { ...acc, [Keys.getClassHash({ subject, classId, termId, host: 'neu.edu' })]: { subject, classId, termId } };
+        }
       }
     }, {});
   }

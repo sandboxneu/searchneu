@@ -21,10 +21,6 @@ class TermParser {
    * @returns Object {classes, sections} where classes is a list of class data
    */
   async parseTerm(termId) {
-    // const courseSearchResults = await this.requestsClassesForTerm(termId);
-    // const classes = await pMap(courseSearchResults,
-    //   (a) => { return ClassParser.parseClassFromSearchResult(a, termId); },
-    //   { concurrency: 500 });
 
     const sections = await this.parseSections(termId);
     const courseIdentifiers = {};
@@ -32,22 +28,24 @@ class TermParser {
       const termId = section.termId;
       const subject = section.subject;
       const classId = section.classId;
-      courseIdentifiers[Keys.getClassHash({ termId, subject, classId, host: 'neu.edu' })] = { termId, subject, classId };
+      courseIdentifiers[Keys.getClassHash({ host: 'neu.edu', termId, subject, classId, })] = { termId, subject, classId };
     });
 
     const classes = await pMap(Object.values(courseIdentifiers), ({termId, subject, classId}) => {
       return ClassParser.parseClass(termId, subject, classId);
     }, {concurrency: 500});
-
     const refsPerCourse = classes.map((c) => ClassParser.getAllCourseRefs(c));
     const courseRefs = Object.assign({}, ...refsPerCourse);
 
-    Object.keys(courseRefs).forEach(async (ref) => {
+    await pMap(Object.keys(courseRefs), async (ref) => {
       if (!(ref in courseIdentifiers)) {
         const {termId, subject, classId} = courseRefs[ref];
-        classes.push(await ClassParser.parseClass(termId, subject, classId));
+        const referredClass = await ClassParser.parseClass(termId, subject, classId);
+        if (referredClass) {
+          classes.push(referredClass);
+        }
       }
-    });
+    }, {concurrency: 500});
 
     macros.log(`scraped ${classes.length} classes and ${sections.length} sections`);
     return { classes, sections };
