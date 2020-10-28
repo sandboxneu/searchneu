@@ -39,8 +39,8 @@ describe('classParser', () => {
 
   describe('parseClassFromSearchResult', () => {
     it('parses and sends extra requests', async () => {
-      expect(await ClassParser.parseClassFromSearchResult(data.chem2311, 202010)).toMatchSnapshot();
-      expect(await ClassParser.parseClassFromSearchResult(data.cs2500, 202010)).toMatchSnapshot();
+      expect(await ClassParser.parseClassFromSearchResult(data.chem2311, '202010')).toMatchSnapshot();
+      expect(await ClassParser.parseClassFromSearchResult(data.cs2500, '202010')).toMatchSnapshot();
     });
   });
 });

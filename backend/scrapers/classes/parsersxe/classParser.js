@@ -13,6 +13,14 @@ import SubjectAbbreviationParser from './subjectAbbreviationParser';
 
 const request = new Request('classParser');
 
+const collegeNames = {
+  0: 'NEU',
+  2: 'LAW',
+  8: 'LAW',
+  4: 'CPS',
+  5: 'CPS',
+}
+
 class ClassParser {
   /**
    * Build class data from scratch, sending a new search result query for this specific class.
@@ -56,7 +64,6 @@ class ClassParser {
     const prereqs = await this.getPrereqs(termId, subjectCode, courseNumber, subjectAbbreviations);
     const coreqs = await this.getCoreqs(termId, subjectCode, courseNumber, subjectAbbreviations);
     const attributes = await this.getAttributes(termId, subjectCode, courseNumber);
-
     const classDetails = {
       host: 'neu.edu',
       termId: termId,
@@ -73,6 +80,7 @@ class ClassParser {
       lastUpdateTime: Date.now(),
       maxCredits: SR.creditHourLow,
       minCredits: SR.creditHourHigh || SR.creditHourLow,
+      college: collegeNames[termId.charAt(termId.length - 1)],
     };
     if (prereqs) {
       classDetails.prereqs = prereqs;

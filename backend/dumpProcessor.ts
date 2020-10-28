@@ -78,9 +78,10 @@ class DumpProcessor {
       subject: this.strTransform,
       term_id: this.strTransform,
       url: this.strTransform,
+      college: this.strTransform,
     };
 
-    const courseCols = ['class_attributes', 'class_id', 'coreqs', 'description', 'fee_amount', 'fee_description', 'host', 'id', 'last_update_time', 'max_credits', 'min_credits', 'name', 'nupath', 'opt_prereqs_for', 'prereqs', 'prereqs_for', 'pretty_url', 'subject', 'term_id', 'url'];
+    const courseCols = ['class_attributes', 'class_id', 'coreqs', 'description', 'fee_amount', 'fee_description', 'host', 'id', 'last_update_time', 'max_credits', 'min_credits', 'name', 'nupath', 'opt_prereqs_for', 'prereqs', 'prereqs_for', 'pretty_url', 'subject', 'term_id', 'url', 'college'];
 
     const sectionTransforms = {
       class_hash: this.strTransform,
