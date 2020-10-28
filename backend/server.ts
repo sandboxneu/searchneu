@@ -11,6 +11,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import compress from 'compression';
 import bodyParser from 'body-parser';
 import xhub from 'express-x-hub';
+import { onShutdown } from 'node-graceful-shutdown';
 
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
@@ -21,6 +22,7 @@ import webhookRouter from './routes/webhook';
 import subscriptionRouter from './routes/subscription';
 import userRouter from './routes/user';
 import feedbackRouter from './routes/feedback';
+import prisma from './prisma';
 
 const app = express();
 
@@ -165,4 +167,8 @@ app.listen(port, '0.0.0.0', (err) => {
   macros.logAmplitudeEvent('Backend Server startup', {});
 
   macros.log(`Listening on port ${port}.`);
+});
+
+onShutdown('server', async () => {
+  await prisma.$disconnect();
 });

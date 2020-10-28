@@ -1,0 +1,2014 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateSource",
+      "source": "db"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "db"
+      },
+      "argument": "provider",
+      "value": "\"postgresql\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "db"
+      },
+      "argument": "url",
+      "value": "\"***\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Course"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "classAttributes",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "classAttributes"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "classAttributes"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"class_attributes\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "classId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "classId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "classId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"class_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "coreqs",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "description",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "feeAmount",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "feeAmount"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "feeAmount"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"fee_amount\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "feeDescription",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "feeDescription"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "feeDescription"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"fee_description\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "host",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "lastUpdateTime",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "lastUpdateTime"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "lastUpdateTime"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"last_update_time\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "maxCredits",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "maxCredits"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "maxCredits"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"max_credits\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "minCredits",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "minCredits"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "minCredits"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"min_credits\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "name",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "nupath",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "optPrereqsFor",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "optPrereqsFor"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "optPrereqsFor"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"opt_prereqs_for\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "prereqs",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "prereqsFor",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "prereqsFor"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "prereqsFor"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"prereqs_for\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "prettyUrl",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "prettyUrl"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "prettyUrl"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"pretty_url\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "subject",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "termId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "termId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Course",
+          "field": "termId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"term_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "followedCourses",
+      "type": "FollowedCourse",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Course",
+      "field": "sections",
+      "type": "Section",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Course"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "Course"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"courses\""
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Course",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[classId, termId, subject]"
+            },
+            {
+              "name": "name",
+              "value": "\"uniqueCourseProps\""
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateModel",
+      "model": "FollowedCourse"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedCourse",
+      "field": "courseId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "courseId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "courseId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"course_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedCourse",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "userId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "userId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"user_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedCourse",
+      "field": "course",
+      "type": "Course",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "course"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "course"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[courseId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "course"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedCourse",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedCourse",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FollowedCourse"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "FollowedCourse"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"followed_courses\""
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FollowedCourse"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "FollowedCourse"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[userId, courseId]"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "FollowedSection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedSection",
+      "field": "sectionId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "sectionId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "sectionId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"section_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedSection",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "userId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "userId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"user_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedSection",
+      "field": "section",
+      "type": "Section",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "section"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "section"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[sectionId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "section"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FollowedSection",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FollowedSection",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FollowedSection"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "FollowedSection"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"followed_sections\""
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FollowedSection"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "FollowedSection"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[userId, sectionId]"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Major"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "catalogYear",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "catalogYear"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "catalogYear"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"catalog_year\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "majorId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "majorId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "majorId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"major_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "name",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "plansOfStudy",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "plansOfStudy"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Major",
+          "field": "plansOfStudy"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"plans_of_study\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Major",
+      "field": "requirements",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Major"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "Major"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"majors\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Professor"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "bigPictureUrl",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "bigPictureUrl"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "bigPictureUrl"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"big_picture_url\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "email",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "emails",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "firstName",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "firstName"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "firstName"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"first_name\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "googleScholarId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "googleScholarId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "googleScholarId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"google_scholar_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "lastName",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "lastName"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "lastName"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"last_name\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "link",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "name",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "officeRoom",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "officeRoom"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "officeRoom"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"office_room\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "personalSite",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "personalSite"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "personalSite"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"personal_site\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "phone",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "pic",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "primaryDepartment",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "primaryDepartment"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "primaryDepartment"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"primary_department\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "primaryRole",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "primaryRole"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "primaryRole"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"primary_role\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "streetAddress",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "streetAddress"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Professor",
+          "field": "streetAddress"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"street_address\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Professor",
+      "field": "url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Professor"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "Professor"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"professors\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Section"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "classHash",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "classHash"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "classHash"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"class_hash\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "classType",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "classType"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "classType"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"class_type\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "crn",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "honors",
+      "type": "Boolean",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "info",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "meetings",
+      "type": "Json",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "online",
+      "type": "Boolean",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "profs",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "seatsCapacity",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "seatsCapacity"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "seatsCapacity"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"seats_capacity\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "seatsRemaining",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "seatsRemaining"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "seatsRemaining"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"seats_remaining\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "waitCapacity",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "waitCapacity"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "waitCapacity"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"wait_capacity\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "waitRemaining",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "waitRemaining"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "waitRemaining"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"wait_remaining\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "course",
+      "type": "Course",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "course"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "course"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[classHash]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Section",
+          "field": "course"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Section",
+      "field": "followedSections",
+      "type": "FollowedSection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Section"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "Section"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"sections\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "User"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "facebookPageId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "facebookPageId"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "facebookPageId"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"facebook_page_id\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "firstName",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "firstName"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "firstName"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"first_name\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "lastName",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "lastName"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "lastName"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"last_name\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "loginKeys",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "loginKeys"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "loginKeys"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"login_keys\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "followedCourses",
+      "type": "FollowedCourse",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "followedSections",
+      "type": "FollowedSection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "User"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "User"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"users\""
+    }
+  ]
+}

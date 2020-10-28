@@ -1,7 +1,9 @@
-import {
-  Course, Section, User, FollowedCourse, FollowedSection, sequelize,
-} from '../database/models/index';
+import { InputJsonValue } from '@prisma/client';
+import pMap from 'p-map';
+import _ from 'lodash';
+
 import { Course as CourseType, Section as SectionType, Requisite } from '../types';
+import prisma from '../prisma';
 import Updater, { Notification } from '../updater';
 import Keys from '../../common/Keys';
 import notifyer from '../notifyer';
@@ -13,48 +15,66 @@ beforeEach(async () => {
   jest.spyOn(notifyer, 'sendFBNotification').mockImplementation(() => {});
   jest.useFakeTimers();
 
-  await Course.truncate({ cascade: true, restartIdentity: true });
-  await Section.truncate({ cascade: true, restartIdentity: true });
-  await User.truncate({ cascade: true, restartIdentity: true });
-  await FollowedCourse.truncate({ cascade: true, restartIdentity: true });
-  await FollowedSection.truncate({ cascade: true, restartIdentity: true });
+  await prisma.followedSection.deleteMany({});
+  await prisma.followedCourse.deleteMany({});
+  await prisma.user.deleteMany({});
+  await prisma.section.deleteMany({});
+  await prisma.course.deleteMany({});
 });
 
-afterEach(() => {
+afterEach(async () => {
   jest.clearAllTimers();
 });
 
-afterAll(async () => {
-  await sequelize.close();
-});
-
-function createEmptySection(sec: SectionType): Promise<void> {
-  return Section.create({
-    ...sec,
-    id: Keys.getSectionHash(sec),
-    classHash: Keys.getClassHash(sec),
-    crn: sec.crn,
-    seatsRemaining: 0,
-    waitRemaining: 0,
+function createEmptySection(sec: SectionType) {
+  return prisma.section.create({
+    data: {
+      ..._.omit(sec, ['classId', 'termId', 'subject', 'host', 'classAttributes', 'prettyUrl', 'desc', 'lastUpdateTime', 'maxCredits', 'minCredits', 'coreqs', 'prereqs', 'prereqsFor', 'optPrereqsFor']), // FIXME very sus
+      id: Keys.getSectionHash(sec),
+      crn: sec.crn,
+      seatsRemaining: 0,
+      waitRemaining: 0,
+      meetings: sec.meetings as unknown as InputJsonValue, // FIXME sus
+      profs: { set: sec.profs },
+      course: { connect: { id: Keys.getClassHash(sec) } },
+    },
   });
 }
 
-function createStubUser(name: string): Promise<void> {
-  return User.create({
-    id: name,
-    facebookPageId: name,
-    firstName: name,
-    lastName: name,
-    loginKeys: [],
+function createStubUser(name: string) {
+  return prisma.user.create({
+    data: {
+      id: name,
+      facebookPageId: name,
+      firstName: name,
+      lastName: name,
+      loginKeys: { set: [] },
+    },
   });
 }
 
-function createFollowedCourses(courseId: string, users: string[]): Promise<void> {
-  return FollowedCourse.bulkCreate(users.map((userId: string) => ({ courseId, userId })));
+// FIXME correct return value
+function createFollowedCourses(courseId: string, users: string[]): Promise<any> {
+  return pMap(users, async (userId: string) => {
+    return prisma.followedCourse.create({
+      data: {
+        course: { connect: { id: courseId } },
+        user: { connect: { id: userId } },
+      },
+    });
+  });
 }
 
-function createFollowedSections(sectionId: string, users: string[]): Promise<void> {
-  return FollowedSection.bulkCreate(users.map((userId: string) => ({ sectionId, userId })));
+// FIXME correct return value
+function createFollowedSections(sectionId: string, users: string[]): Promise<any> {
+  return pMap(users, async (userId: string) => {
+    return prisma.followedSection.create({
+      data: {
+        section: { connect: { id: sectionId } },
+        user: { connect: { id: userId } },
+      },
+    });
+  });
 }
 
 describe('Updater', () => {
@@ -272,9 +292,9 @@ describe('Updater', () => {
 
   describe('update', () => {
     beforeEach(async () => {
-      await Course.create({ ...FUNDIES_ONE, id: 'neu.edu/202030/CS/2500' });
-      await Course.create({ ...FUNDIES_TWO, id: 'neu.edu/202030/CS/2510' });
-      await Course.create({ ...PL, id: 'neu.edu/202030/CS/4400' });
+      await prisma.course.create({ data: dumpProcessor.processCourse(FUNDIES_ONE) });
+      await prisma.course.create({ data: dumpProcessor.processCourse(FUNDIES_TWO) });
+      await prisma.course.create({ data: dumpProcessor.processCourse(PL) });
 
       await createEmptySection(FUNDIES_ONE_S2);
       await createEmptySection(FUNDIES_TWO_S1);
@@ -293,7 +313,7 @@ describe('Updater', () => {
     });
 
     it('WORKS', async () => {
-      jest.spyOn(dumpProcessor, 'main').mockImplementation(() => {});
+      jest.spyOn(dumpProcessor, 'main').mockImplementation(async () => {});
       jest.spyOn(termParser, 'parseSections').mockImplementation(() => {
         return [
           FUNDIES_ONE_S1,
@@ -321,7 +341,7 @@ describe('Updater', () => {
     });
 
     it('does not send unnecessary messages', async () => {
-      jest.spyOn(dumpProcessor, 'main').mockImplementation(() => {});
+      jest.spyOn(dumpProcessor, 'main').mockImplementation(async () => {});
       jest.spyOn(termParser, 'parseSections').mockImplementation(() => {
         return [
           PL_S1,
@@ -336,7 +356,7 @@ describe('Updater', () => {
     });
 
     it('does not send messages if scraped classes do not match with followed terms', async () => {
-      jest.spyOn(dumpProcessor, 'main').mockImplementation(() => {});
+      jest.spyOn(dumpProcessor, 'main').mockImplementation(async () => {});
       jest.spyOn(termParser, 'parseSections').mockImplementation(() => {
         return [
           { ...FUNDIES_ONE_S2, termId: '202110' },
@@ -354,7 +374,7 @@ describe('Updater', () => {
 
     it('does not try to send messages to users associated with a class not being followed', async () => {
       await createEmptySection(FUNDIES_TWO_S3);
-      jest.spyOn(dumpProcessor, 'main').mockImplementation(() => {});
+      jest.spyOn(dumpProcessor, 'main').mockImplementation(async () => {});
       jest.spyOn(termParser, 'parseSections').mockImplementation(() => {
         return [
           FUNDIES_ONE_S2,

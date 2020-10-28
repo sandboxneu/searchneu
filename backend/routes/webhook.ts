@@ -5,7 +5,7 @@ import macros from '../macros';
 import notifyer from '../notifyer';
 import database from '../database';
 import HydrateCourseSerializer from '../database/serializers/hydrateCourseSerializer';
-import { Course, Section } from '../database/models/index';
+import prisma from '../prisma';
 import { FBUserPayload } from '../../common/types';
 import { getUserDataReqs } from './user';
 
@@ -69,9 +69,9 @@ async function onSendToMessengerButtonClick(
   macros.log('Got webhook - received ', userObject);
   // TODO: check that sender is a string and not a number
   const existingData = await database.get(sender);
-  const classModel = await Course.findByPk(userObject.classHash);
+  const classModel = await prisma.course.findOne({ where: { id: userObject.classHash } });// Course.findByPk(userObject.classHash);
   const aClass = (Object.values(
-    await new HydrateCourseSerializer(Section).bulkSerialize([classModel]),
+    await new HydrateCourseSerializer().bulkSerialize([classModel]),
   )[0] as any).class; // TODO fix when serializers are typed
 
   // User is signing in from a new device

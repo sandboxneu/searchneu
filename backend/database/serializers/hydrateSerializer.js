@@ -1,6 +1,10 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+import prisma from '../../prisma';
 import HydrateCourseSerializer from './hydrateCourseSerializer';
 import HydrateProfSerializer from './hydrateProfSerializer';
-import { Professor, Course } from '../models/index';
 
 /* eslint-disable no-underscore-dangle */
 class HydrateSerializer {
@@ -13,14 +17,28 @@ class HydrateSerializer {
     const profs = instances.filter((instance) => { return instance._source.type === 'employee' });
     const courses = instances.filter((instance) => { return instance._source.type === 'class' });
 
-    const profInstances = await Professor.findAll({ where: { id: profs.map((prof) => { return prof._id }) } });
-    const courseInstances = await Course.findAll({ where: { id: courses.map((course) => { return course._id }) } });
+    const profData = await prisma.professor.findMany({
+      where: {
+        id: {
+          in: profs.map((prof) => prof._id),
+        },
+      },
+    });
 
-    const serializedProfs = await this.profSerializer.bulkSerialize(profInstances);
-    const serializedCourses = await this.courseSerializer.bulkSerialize(courseInstances);
+    const courseData = await prisma.course.findMany({
+      where: {
+        id: {
+          in: courses.map((course) => course._id),
+        },
+      },
+    });
+
+
+    const serializedProfs = await this.profSerializer.bulkSerialize(profData);
+    const serializedCourses = await this.courseSerializer.bulkSerialize(courseData);
 
     const serializedResults = { ...serializedProfs, ...serializedCourses };
-    return instances.map((instance) => serializedResults[instance._id]);
+    return instances.map((instance) => serializedResults[instance._id]).filter((elem) => elem);
   }
 }
 

@@ -35,7 +35,7 @@ function DesktopSectionPanel({ section, showNotificationSwitches } : DesktopSect
             {getUniqueTimes(meeting.times).map((time) => (
               <>
                 <span>
-                  {`${time.start.format('h:mm')}-${time.end.format('h:mm a')} | ${meeting.getLocation()}`}
+                  {`${time.start.format('h:mm')}-${time.end.format('h:mm a')} | ${meeting.location}`}
                 </span>
                 <br />
               </>

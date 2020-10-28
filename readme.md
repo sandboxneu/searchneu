@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://searchneu.com/">
-    <img alt="Search NEU" src="https://i.imgur.com/6hPgLSP.png" width="400"/>
+    <img alt="SearchNEU" src="https://i.imgur.com/6hPgLSP.png" width="400"/>
   </a>
 </p>
 <br/>
@@ -15,16 +15,20 @@
 </p>
 
 ----
-Search NEU lets anyone easily search over classes, professors, and subjects at Northeastern. All the data on the site is scraped from different parts of Northeastern's websites and updated daily. The scrapers themselves run on Travis-CI and the site is hosted on Amazon Web services. The backend is programmed in Nodejs and the frontend is in React/Webpack. Check out [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/Readme.md) for more details. 
+SearchNEU lets anyone easily search over classes, professors, and subjects at Northeastern. All the data on the site is scraped from different parts of Northeastern's websites and updated daily. The scrapers themselves run on Travis-CI and the site is hosted on Amazon Web services. The backend is programmed in Nodejs and the frontend is in React/Webpack. Check out [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/Readme.md) for more details. 
+
+SearchNEU is maintained by [Sandbox](https://www.sandboxnu.com/), Northeastern's student-led software consultancy.
 
 ### Contributing 🎉🎉🎉
 If you are interested in helping make this site awesome that is fantastic! There are TONS of different things that you could help with including the programming itself, the design of the site, marketing, promotion, etc. You don't have to have any Computer Science experience to help out! More details [here](https://github.com/sandboxnu/searchneu/blob/master/docs/Contributing.md). 
 
 Feel free to reach out if you have any questions! hey@searchneu.com
 
-Search NEU was originally built by [Ryan Hughes](https://github.com/ryanhugh). This fork has become the mainline and is maintained by [Sandbox](https://www.sandboxnu.com/), Northeastern's student-led software consultancy.
+### Contributors 😍
 
-Shout out to the following folks for contributing!
+SearchNEU was originally created and built in 2017 by [Ryan Hughes](https://github.com/ryanhugh). Thank you Ryan for making SearchNEU what it is!
+
+Special shout out to the following folks for contributing!
 
  - [Edward Li](https://github.com/NEUDitao)
  - [Edward Shen](https://github.com/edward-shen)
@@ -32,9 +36,9 @@ Shout out to the following folks for contributing!
 
 ### API 🎉👍
 
-All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/API.md). 
+All the data on SearchNEU is available to download! For more details see [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/API.md). 
 
 
 ### License
 
-Search NEU is licensed under AGPL3. Any derivative work, such as projects that use the data on the site, must also be open source. See the LICENSE file for details. Feel free to reach out if you have any questions about this. hey@searchneu.com 
+SearchNEU is licensed under AGPL3. Any derivative work, such as projects that use the data on the site, must also be open source. See the LICENSE file for details. Feel free to reach out if you have any questions about this. hey@searchneu.com 

@@ -7,6 +7,7 @@ import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
 import dumpProcessor from '../dumpProcessor';
+import prisma from '../prisma';
 
 
 // Main file for scraping
@@ -29,7 +30,7 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main();
+  instance.main().then(() => prisma.$disconnect());
 }
 
 export default instance;

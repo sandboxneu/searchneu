@@ -3,7 +3,7 @@ import _ from 'lodash';
 import macros from '../macros';
 import notifyer from '../notifyer';
 import database from '../database';
-import { Section, Course } from '../database/models/index';
+import prisma from '../prisma';
 
 const subscriptionRouter = express.Router();
 export default subscriptionRouter;
@@ -102,7 +102,16 @@ subscriptionRouter.post('/', async (req, res) => {
 
   if (sectionHash) {
     userObject.watchingSections.push(sectionHash);
-    const section = await Section.findByPk(sectionHash, { include: Course });
+    const section = await prisma.section.findOne({ where: { id: sectionHash }, include: { course: true } });
+
+    if (!section || !section.course) {
+      res.status(404).send(
+        JSON.stringify({
+          status: 'No such section',
+        }),
+      );
+      return
+    }
     notifyer.sendFBNotification(
       req.body.senderId,
       `You have subscribed to notification for a section in ${section.course.subject} ${section.course.classId} (CRN: ${section.crn})!`,
@@ -110,7 +119,15 @@ subscriptionRouter.post('/', async (req, res) => {
   }
   if (classHash) {
     userObject.watchingClasses.push(classHash);
-    const course = await Course.findByPk(classHash);
+    const course = await prisma.course.findOne({ where: { id: classHash } });
+    if (!course) {
+      res.status(404).send(
+        JSON.stringify({
+          status: 'No such class',
+        }),
+      );
+      return
+    }
     notifyer.sendFBNotification(
       req.body.senderId,
       `You have subscribed to notifications for the class ${course.subject} ${course.classId}`,
@@ -158,11 +175,11 @@ subscriptionRouter.delete('/', async (req, res) => {
   await database.set(req.body.senderId, userObject);
   macros.log('sending done, section removed.');
 
-  const section = await Section.findByPk(sectionHash);
+  const section = await prisma.section.findOne({ where: { id: sectionHash }, include: { course: true } });
 
   notifyer.sendFBNotification(
     req.body.senderId,
-    `You have unsubscribed from notifications for a section of ${section.subject} ${section.classId} (CRN: ${section.crn}).`,
+    `You have unsubscribed from notifications for a section of ${section.course.subject} ${section.course.classId} (CRN: ${section.crn}).`,
   );
 
   res.send(

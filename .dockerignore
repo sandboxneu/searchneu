@@ -4,4 +4,4 @@ cache
 docs
 dist
 poster
-infrastructure
+infrastructure/terraform

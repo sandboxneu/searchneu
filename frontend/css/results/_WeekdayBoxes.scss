@@ -15,7 +15,7 @@
     height: 18px;
     background: #fafafb;
     color: #979797;
-    border: 0.25px solid rgba(151, 151, 151, 0.5);
+    border: 0.5px solid #979797;
 
     &--checked {
       display: block;
@@ -28,6 +28,11 @@
   }
 
   &__box:nth-child(even) {
+    border-left: none;
+    border-right: none;
+  }
+
+  &__box--checked:nth-child(even) {
     border-left: none;
     border-right: none;
   }

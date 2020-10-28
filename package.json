@@ -6,14 +6,15 @@
     "babel-node-ts": "babel-node --extensions '.js,.jsx,.ts,.tsx'",
     "start": "./node_modules/.bin/cross-env NODE_ENV=dev yarn babel-node-ts backend/server.ts",
     "scrape": "yarn babel-node-ts --max_old_space_size=12000 backend/scrapers/main.js",
-    "resetIndex": "yarn babel-node-ts backend/resetIndex.js",
-    "populateES": "yarn babel-node-ts backend/populateES.ts",
+    "resetIndex": "yarn babel-node-ts backend/script/resetIndex.js",
+    "populateES": "yarn babel-node-ts backend/script/populateES.ts",
     "script": "cd $INIT_CWD; babel-node --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';yarn -s script -- --inspect-brk",
     "dev:docker": "docker-compose -f infrastructure/dev/docker-compose.yml up -d",
     "dev:docker:del": "docker-compose -f infrastructure/dev/docker-compose.yml down -v",
-    "dev:migrate": "npx sequelize-cli --env dev db:migrate",
-    "dev:undo": "npx sequelize-cli --env dev db:migrate:undo:all",
+    "db:migrate": "prisma migrate up --experimental",
+    "db:refresh": "npx prisma generate",
+    "db:rollback": "prisma migrate down --experimental",
     "-linting-": "--------linting--------",
     "lintjs": "node ./node_modules/eslint/bin/eslint.js --ext .js,.jsx,.ts,.tsx backend/ common/ frontend/",
     "fixjs": "node ./node_modules/eslint/bin/eslint.js --ext .js,.jsx,.ts,.tsx backend/ common/ frontend/ --fix",
@@ -25,9 +26,8 @@
     "tsc": "tsc",
     "-testing-": "--------testing--------",
     "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='(seq|reg).[jt]s'",
-    "test:migrate": "npx sequelize-cli --env test db:migrate",
     "regtest": "jest --projects regtests",
-    "seqtest": "jest -i seq.[jt]s",
+    "dbtest": "jest -i --projects backend/tests/",
     "prodtest": "PROD=true jest reg.[jt]s",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
     "-building-": "--------building--------",
@@ -35,8 +35,6 @@
     "build_backend": "mkdir -p dist; mkdir -p dist/backend; babel --extensions '.js,.ts' backend -d dist/backend --copy-files; babel --extensions '.js,.ts' common -d dist/common",
     "build": "yarn -s build_backend; yarn -s build_frontend",
     "-deployment-": "--------deployment--------",
-    "prod:migrate": "npx sequelize-cli --env prod db:migrate",
-    "prod:undo": "npx sequelize-cli --env prod db:migrate:undo:all",
     "prod:scrape": "node dist/backend/scrapers/main.js",
     "prod:start": "node dist/backend/server.js",
     "prod:start:updater": "node dist/backend/updater.js"
@@ -74,13 +72,14 @@
   "_comment2": "Async adds about 30k to the final bundled output. There are smaller libraries that can also do async.retry (only thing that is being used in async)",
   "_comment3": "but that is only about 3% of the final JS size.",
   "dependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.10.2",
     "@babel/node": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@elastic/elasticsearch": "^7.0.0-rc.2",
+    "@prisma/client": "2.7.0-dev.40",
     "@types/history": "^4.7.6",
     "@types/react-router": "^5.1.8",
     "amplitude": "^4.0.1",
@@ -117,12 +116,14 @@
     "identity-obj-proxy": "^3.0.0",
     "is-mobile": "^2.0.0",
     "jest": "^24.8.0",
+    "jest-environment-node": "^26.3.0",
     "json": "^9.0.6",
     "lodash": "^4.17.4",
     "mock-local-storage": "^1.0.5",
     "mockdate": "^2.0.1",
     "moment": "^2.19.3",
     "msgpack5": "^4.0.0",
+    "node-graceful-shutdown": "^1.0.5",
     "node-notifier": "^5.2.1",
     "object-hash": "^1.1.7",
     "p-map": "^3.0.0",
@@ -147,12 +148,11 @@
     "sass-loader": "^7.0.1",
     "semantic-ui-css": "^2.2.4",
     "semantic-ui-react": "^0.87.1",
-    "sequelize": "^5.21.2",
-    "sequelize-cli": "^5.5.1",
     "strip-ansi": "^5.0.0",
     "urijs": "^1.18.8",
     "use-deep-compare-effect": "^1.3.1",
     "use-query-params": "^0.6.0",
+    "uuid": "^8.3.0",
     "webpack": "^4.1.0",
     "webpack-cli": "^3.0.1",
     "webpack-dev-middleware": "^3.0.1",
@@ -161,7 +161,7 @@
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
+    "@babel/cli": "^7.10.1",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
     "@babel/plugin-proposal-export-default-from": "^7.0.0",
@@ -179,6 +179,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.8.3",
+    "@prisma/cli": "2.7.0-dev.40",
     "@types/atob": "^2.1.2",
     "@types/jest": "^25.1.4",
     "@types/lodash": "^4.14.150",
@@ -215,9 +216,6 @@
     "typescript": "^3.8.3"
   },
   "jest": {
-    "projects": [
-      "<rootDir>/regtests"
-    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
@@ -229,6 +227,9 @@
     "setupFiles": [
       "./common/jestSetupFile.js"
     ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/common/teardown.ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx",
@@ -239,7 +240,7 @@
     ],
     "testMatch": [
       "**/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
+      "**/?(*.)(spec|test).[jt]s?(x)"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",

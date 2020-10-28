@@ -14,6 +14,7 @@
   background: #d3d3d3;
   border-radius: 36px;
   transition: background-color 0.01s;
+  margin-top: 38px;
 
   .react-switch-button {
     content: "";
@@ -51,11 +52,15 @@
   &__input {
     display: flex;
     justify-content: left;
-    padding-top: 10px;
   }
 
   &__title {
-    font-weight: bold;
+    font-family: Lato, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+    margin-bottom: 12px;
+    margin-top: 20px;
   }
 
   &__input-box {

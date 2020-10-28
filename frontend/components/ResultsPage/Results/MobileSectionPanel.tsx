@@ -29,7 +29,7 @@ function MobileSectionPanel({ section, showNotificationSwitches } : MobileSectio
       Array.from(groupedTimesAndDays(m.times)).map(([time, days]) => (
         <>
           <span className='MobileSectionPanel__meetings--time'>
-            {`${days}, ${time} | ${m.getLocation()}`}
+            {`${days}, ${time} | ${m.location}`}
           </span>
           <br />
         </>

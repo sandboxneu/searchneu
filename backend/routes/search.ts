@@ -1,8 +1,10 @@
 import express from 'express';
-import request from 'request-promise-native';
 import macros from '../macros';
 import elastic from '../elastic';
 import searcher from '../searcher';
+import Request from '../scrapers/request';
+
+const request = new Request('server');
 
 const searchRouter = express.Router()
 export default searchRouter

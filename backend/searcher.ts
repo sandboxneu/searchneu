@@ -4,8 +4,8 @@
  */
 
 import _ from 'lodash';
+import prisma from './prisma';
 import elastic, { Elastic } from './elastic';
-import { Course, Section } from './database/models/index';
 import HydrateSerializer from './database/serializers/hydrateSerializer';
 import macros from './macros';
 import {
@@ -98,7 +98,7 @@ class Searcher {
 
   async initializeSubjects(): Promise<void> {
     if (!this.subjects) {
-      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct.toUpperCase()));
+      this.subjects = new Set((await prisma.course.findMany({ select: { subject: true }, distinct: ['subject'] })).map((obj) => obj.subject));
     }
   }
 
@@ -260,8 +260,9 @@ class Searcher {
     const {
       output, resultCount, took, aggregations,
     } = await this.getSearchResults(query, termId, min, max, filters);
+
     const startHydrate = Date.now();
-    const results = await (new HydrateSerializer(Section)).bulkSerialize(output);
+    const results = await (new HydrateSerializer()).bulkSerialize(output);
 
     return {
       searchContent: results,
