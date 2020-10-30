@@ -198,7 +198,7 @@ locals {
     },
     {
       name        = "DATABASE_URL"
-      value       = "postgresql://${aws_db_instance.default.address}"
+      value       = "postgresql://postgres@${aws_db_instance.default.endpoint}/${module.label.name}"
       description = "Postgres database URL"
     }
   ])
