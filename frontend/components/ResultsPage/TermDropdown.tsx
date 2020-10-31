@@ -3,6 +3,10 @@ import React from 'react';
 
 export const termDropDownOptions = [
   {
+    text: 'Spring 2021',
+    value: '202130',
+  },
+  {
     text: 'Fall 2020',
     value: '202110',
   },
@@ -17,10 +21,6 @@ export const termDropDownOptions = [
   {
     text: 'Summer Full 2020',
     value: '202050',
-  },
-  {
-    text: 'Spring 2020',
-    value: '202030',
   },
 ];
 
