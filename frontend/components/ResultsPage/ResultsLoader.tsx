@@ -24,12 +24,12 @@ function ResultsLoader({ results, loadMore }: ResultsLoaderProps) {
     >
       <div className='five column row'>
         <div className='page-home'>
-          {results.flatMap((result) => (result ? (
+          {results.filter((result) => result !== null && result !== undefined).map((result) => (
             <ResultItemMemoized
               key={ result.type === 'class' ? Keys.getClassHash(result.class) : result.employee.id }
               result={ result }
             />
-          ) : []))}
+          ))}
         </div>
       </div>
     </InfiniteScroll>
