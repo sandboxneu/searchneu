@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 24px;
 
   &__campusSelector {
     height: 50px;
@@ -96,10 +97,10 @@
     &--dropdown {
       border-radius: 5px 0 0 5px;
       height: 100%;
-      width: 55%;
       background:  #F5F5F5;
       display: flex;
       align-items: center;
+      min-width: fit-content;
       
     }
     &--input {
