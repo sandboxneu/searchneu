@@ -48,7 +48,7 @@ const HomeSearch = ({ setTermId, termId }: HomeSearchProps) => {
           className='HomeSearch__searchBar--input'
         >
           <SearchBar
-            onSearch={ (q) => { history.push(`${selectedCampus}/${termId}/${q}/`); } }
+            onSearch={ (q) => { history.push(`${selectedCampus}/${termId}/${q}`); } }
             query=''
           />
         </div>
