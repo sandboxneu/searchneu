@@ -46,7 +46,7 @@ export default function Home() {
 
   if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
     attentionSection = (
-      <div style={ actionCenterStyle } className='atentionContainer'>
+      <div style={ actionCenterStyle } className='attentionContainer'>
         <p className='helpFistRow' />
         Help improve Search NEU
         <p>
