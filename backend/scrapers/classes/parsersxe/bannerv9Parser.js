@@ -19,11 +19,11 @@ const request = new Request('bannerv9Parser');
  */
 class Bannerv9Parser {
   async main(termsUrl) {
-    // const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
-    // const suffixes = ['10', '30', '40', '50', '60'];
-    // const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
-    // macros.log(`scraping terms: ${undergradIds}`);
-    return this.scrapeTerms(['202110', '202118', '202115']);
+    const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
+    const suffixes = ['10', '30', '40', '50', '60'];
+    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
+    macros.log(`scraping terms: ${undergradIds}`);
+    return this.scrapeTerms(undergradIds);
   }
 
   /**
