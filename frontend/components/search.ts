@@ -20,28 +20,6 @@ const apiVersion = 2;
 
 
 class Search {
-  cache: {[id: string]: SearchResult}
-
-  allLoaded: {[id: string]: boolean}
-
-  constructor() {
-    // Mapping of search term to an object which contains three fields,
-    // the results that have been loaded so far, the subjectName (if it exists),
-    // and subjectCount (if it exists)
-    this.cache = {};
-
-    // Queries that have loaded all of the results, and no longer need to hit the server for any more.
-    this.allLoaded = {};
-  }
-
-
-  // Clears the cache stored in this module.
-  // Used for testing.
-  clearCache() {
-    this.cache = {};
-    this.allLoaded = {};
-  }
-
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10) (set by termCount)
@@ -56,22 +34,8 @@ class Search {
 
     const stringFilters = JSON.stringify(_.pickBy(filters, (v, k: keyof FilterSelection) => !_.isEqual(v, DEFAULT_FILTER_SELECTION[k])));
 
-    const searchHash = termId + query + stringFilters;
-
     // if in cache, set appropriate term count
-    let existingTermCount = 0;
-    if (this.cache[searchHash]) {
-      existingTermCount = this.cache[searchHash].results.length;
-    }
-
-    // Cache hit
-    if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[searchHash]) {
-      macros.log('Cache hit.', this.allLoaded[searchHash]);
-      return {
-        results: this.cache[searchHash].results.slice(0, termCount),
-        filterOptions: this.cache[searchHash].filterOptions,
-      };
-    }
+    const existingTermCount = 0;
 
     // If we got here, we need to hit the network.
     macros.log('Requesting terms ', existingTermCount, 'to', termCount);
@@ -103,28 +67,18 @@ class Search {
       return BLANK_SEARCH_RESULT();
     }
 
-    // if cache doesn't exist, instantiate. Subject info only changed here
-    // since it should only be changed on cache misses
-    if (!this.cache[searchHash]) {
-      this.cache[searchHash] = BLANK_SEARCH_RESULT();
-    }
-
-    const cacheResult:SearchResult = this.cache[searchHash];
+    const searchResult:SearchResult = BLANK_SEARCH_RESULT();
 
     // Add to the end of exiting results.
-    cacheResult.results = cacheResult.results.concat(results);
+    searchResult.results = searchResult.results.concat(results);
 
     // set filterOptions
-    cacheResult.filterOptions = waitedRequest.filterOptions;
-
-    if (results.length < termCount - existingTermCount) {
-      this.allLoaded[searchHash] = true;
-    }
+    searchResult.filterOptions = waitedRequest.filterOptions;
 
     // Slice the array, so that if we modify the cache here it doesn't affect the instance we return.
-    const retVal = cacheResult.results.slice(0);
+    const retVal = searchResult.results.slice(0);
 
-    return { results: retVal, filterOptions: cacheResult.filterOptions };
+    return { results: retVal, filterOptions: searchResult.filterOptions };
   }
 }
 
