@@ -84,7 +84,7 @@ export default function DropdownFilter({
                 tabIndex={ 0 }
                 aria-selected='true'
                 aria-checked='false'
-                className='DropdownFilter__noResults'
+                className='DropdownFilter--noResults'
                 onClick={ (e) => e.stopPropagation() }
               >
                 <span className='DropdownFilter__elementText'>No results found.</span>
