@@ -10,8 +10,8 @@ import boston from '../images/boston.svg';
 import macros from '../macros';
 import SplashPage from '../SplashPage/SplashPage';
 import Footer from '../Footer';
-import { termDropDownOptions } from '../ResultsPage/TermDropdown';
 import HomeSearch from '../HomePage/HomeSearch'
+import { termDropdownOptions } from '../types'
 
 
 const ATTENTION_SECTION = {
@@ -24,7 +24,7 @@ const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 // The lastest term
 const LATEST_TERM = '202110';
 
-const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
+const AVAILABLE_TERMS = termDropdownOptions.map((t) => { return t.value; });
 
 export default function Home() {
   const [termId = LATEST_TERM, setTermId] = useQueryParam('termId', StringParam); // Default to LATEST if term not in params
