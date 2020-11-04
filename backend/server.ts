@@ -52,17 +52,10 @@ app.use((req, res, next) => {
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-  if (macros.PROD) {
-    // Assets are cached for a day.
-    // This time interval was chosen because the scrapers are ran daily, so there is no point for the browser to update the cache more often that this.
-    // These Cache-control headers are far from perfect though haha
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-  } else {
-    // Don't cache in DEV
-    // Could also use no-store which would prevent the browser from storing it all.
-    // This no-cache header requires the browser to revalidate the cache with the server before serving it.
-    res.setHeader('Cache-Control', 'no-cache');
-  }
+  // Removing the cache--SearchNEU goes down more than it should, so we cache incorrect results too often.
+  // FIXME use Vercel SWR
+  res.setHeader('Cache-Control', 'no-cache');
+
   next();
 });
 
