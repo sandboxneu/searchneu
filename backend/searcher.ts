@@ -257,7 +257,7 @@ class Searcher {
     let results = result ? await serializer.bulkSerialize([result]) : {};
     results = Object.values(results); // necessary because results looks like { some_class_id: { class: { ... }} and we want [{ class: { ...}}]
     return {
-      results: results,
+      results,
       resultCount: result === null ? 0 : 1,
       took: 0,
       hydrateDuration: Date.now() - start,
@@ -266,12 +266,11 @@ class Searcher {
   }
 
   getSingleResultAggs(result: CourseWithSections) : AggResults {
-    const agg = {
+    return {
       nupath: result.nupath.map((val) => { return { value: val, count: 1 } }),
       subject: [{ value: result.subject, count: 1 }],
       classType: [{ value: result.sections[0].classType, count: 1 }],
     };
-    return agg;
   }
 
   /**
@@ -301,8 +300,7 @@ class Searcher {
       results = await (new HydrateSerializer()).bulkSerialize(searchResults.output);
       hydrateDuration = Date.now() - startHydrate;
     }
-
-    const res = {
+    return {
       searchContent: results,
       resultCount,
       took: {
@@ -312,7 +310,6 @@ class Searcher {
       },
       aggregations,
     };
-    return res;
   }
 }
 
