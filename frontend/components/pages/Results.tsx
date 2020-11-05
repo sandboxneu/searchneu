@@ -26,7 +26,6 @@ import {
 } from '../ResultsPage/filters';
 import ResultsLoader from '../ResultsPage/ResultsLoader';
 import { BLANK_SEARCH_RESULT, SearchResult } from '../types';
-import { useLocation } from 'react-router';
 import { termDropdownOptions, campusDropdownOptions } from '../types';
 import SearchDropdown from '../ResultsPage/SearchDropdown';
 
@@ -65,11 +64,10 @@ export default function Results() {
   const { campus, termId, query = '' } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
-  const location = useLocation()
 
-  const setSearchQuery = (q: string) => { history.push(`/${campus}/${termId}/${q}${location.search}`); }
-  const setTerm = (t: string) => { history.push(`/${campus}/${t}/${query}${location.search}`); }
-  const setCampus = (c: string) => { history.push(`/${c}/${termId}/${query}${location.search}`); }
+  const setSearchQuery = (q: string) => { history.push(`/${campus}/${termId}/${q}${history.location.search}`); }
+  const setTerm = (t: string) => { history.push(`/${campus}/${t}/${query}${history.location.search}`); }
+  const setCampus = (c: string) => { history.push(`/${c}/${termId}/${query}${history.location.search}`); }
 
   const filters: FilterSelection = _.merge({}, DEFAULT_FILTER_SELECTION, qParams);
 
