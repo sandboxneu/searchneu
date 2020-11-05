@@ -66,7 +66,7 @@ export default function DropdownFilter({
             </span>
           ))}
           <input
-            className={ `DropdownFilter__input ${selected.length === 0 && filteredOptions.length === 0 && !isOpen? 'disabled' : ''}` }
+            className={ `DropdownFilter__input ${selected.length === 0 && filteredOptions.length === 0 && !isOpen ? 'disabled' : ''}` }
             tabIndex={ 0 }
             type='text'
             value={ filterString }
