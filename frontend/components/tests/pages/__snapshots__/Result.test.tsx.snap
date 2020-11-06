@@ -68,6 +68,10 @@ exports[`should render a section 1`] = `
           options={
             Array [
               Object {
+                "text": "Spring 2021",
+                "value": "202130",
+              },
+              Object {
                 "text": "Fall 2020",
                 "value": "202110",
               },

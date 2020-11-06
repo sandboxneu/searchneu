@@ -44,6 +44,10 @@ export enum DayOfWeek {
 export const termDropdownOptions: DropdownItemProps[] =
 [
   {
+    text: 'Spring 2021',
+    value: '202130',
+  },
+  {
     text: 'Fall 2020',
     value: '202110',
   },
