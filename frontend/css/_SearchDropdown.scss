@@ -15,6 +15,10 @@
     line-height: 1.3em;
   }
 
+  & > i {
+    line-height: 1.8em !important;
+  }
+
   &--compact {
     flex-basis: 200px;
     flex-shrink: 1;
