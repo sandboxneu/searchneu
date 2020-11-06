@@ -19,12 +19,12 @@ function fetchData(filename: string): Record<any, any> {
 
 // migrate all majors in the directory to the DB
 function migrateData(majorDirectory: MajorJSON): void {
-  Promise.all(Object.entries(majorDirectory).forEach(([termId, majors]) => {
+  Promise.all(Object.entries(majorDirectory).map(([termId, majors]) => {
     majors.forEach((m: Major) => {
       const majorObj = fetchData(m.major);
       const planObj  = fetchData(m.plans);
 
-      prisma.major.create({
+      return prisma.major.create({
         data: {
           requirements: majorObj,
           plansOfStudy: planObj,
