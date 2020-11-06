@@ -34,7 +34,7 @@ function migrateData(majorDirectory: MajorJSON): void {
         }
       });
     });
-  })).then(() => prisma.$disconnect());
+  }));
 }
 
 migrateData(fetchData('major.json') as MajorJSON);
