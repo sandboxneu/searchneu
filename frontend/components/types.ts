@@ -5,11 +5,10 @@
  *
  * ONLY PUT COMMONLY USED TYPES HERE
  */
-
+import { DropdownItemProps } from 'semantic-ui-react';
 import { FilterOptions } from './ResultsPage/filters';
 import Course from './classModels/Course';
 import Section from './classModels/Section';
-import { DropdownItemProps } from 'semantic-ui-react';
 
 // ======= Search Results ========
 // Represents the course and employee data returned by /search
@@ -41,8 +40,7 @@ export enum DayOfWeek {
   SATURDAY
 }
 
-export const termDropdownOptions: DropdownItemProps[] =
-[
+export const termDropdownOptions: DropdownItemProps[] = [
   {
     text: 'Spring 2021',
     value: '202130',
@@ -81,5 +79,5 @@ export const campusDropdownOptions: DropdownItemProps[] = [
   {
     text: 'Law',
     value: 'law',
-  }
+  },
 ];

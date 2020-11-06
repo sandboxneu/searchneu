@@ -4,7 +4,6 @@ import SearchBar from '../ResultsPage/SearchBar'
 import IconGradcap from '../images/IconGradcap'
 import IconScale from '../images/IconScale'
 import IconTie from '../images/IconTie'
-import macros from '../macros';
 import SearchDropdown from '../ResultsPage/SearchDropdown'
 import { termDropdownOptions } from '../types'
 
@@ -16,7 +15,6 @@ interface HomeSearchProps {
 const HomeSearch = ({ setTermId, termId }: HomeSearchProps) => {
   const history = useHistory();
   const [selectedCampus, setSelectedCampus] = useState('neu');
-
   return (
     <div className='HomeSearch'>
       <div className='HomeSearch__campusSelector'>
@@ -38,14 +36,14 @@ const HomeSearch = ({ setTermId, termId }: HomeSearchProps) => {
       </div>
       <div className='HomeSearch__searchBar'>
         <div className='HomeSearch__searchBar--dropdown'>
-        <SearchDropdown
-          options={ termDropdownOptions }
-          value={ termId }
-          placeholder="Fall 2020"
-          onChange={ setTermId }
-          className="searchDropdown"
-          compact={ false }
-        />
+          <SearchDropdown
+            options={ termDropdownOptions }
+            value={ termId }
+            placeholder='Fall 2020'
+            onChange={ setTermId }
+            className='searchDropdown'
+            compact={ false }
+          />
         </div>
         <div
           className='HomeSearch__searchBar--input'
@@ -57,7 +55,6 @@ const HomeSearch = ({ setTermId, termId }: HomeSearchProps) => {
         </div>
       </div>
     </div>
-
 
   )
 }

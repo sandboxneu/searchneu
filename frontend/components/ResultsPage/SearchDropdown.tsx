@@ -10,9 +10,9 @@ interface DropdownProps {
   compact: boolean
 }
 
-
-
-function SearchDropdown({ options, value, placeholder, onChange, className = "searchDropdown", compact = false }: DropdownProps) {
+function SearchDropdown({
+  options, value, placeholder, onChange, className = 'searchDropdown', compact = false,
+} : DropdownProps) {
   return (
     <Dropdown
       selection
