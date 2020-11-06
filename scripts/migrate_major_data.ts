@@ -19,12 +19,12 @@ function fetchData(filename: string): Record<any, any> {
 
 // migrate all majors in the directory to the DB
 function migrateData(majorDirectory: MajorJSON): void {
-  Promise.all(Object.entries(majorDirectory).map(([termId, majors]) => {
+  Object.entries(majorDirectory).forEach(([termId, majors]) => {
     majors.forEach((m: Major) => {
       const majorObj = fetchData(m.major);
       const planObj  = fetchData(m.plans);
 
-      return prisma.major.create({
+      prisma.major.create({
         data: {
           requirements: majorObj,
           plansOfStudy: planObj,
@@ -32,9 +32,9 @@ function migrateData(majorDirectory: MajorJSON): void {
           name: m.name,
           majorId: m.majorId,
         }
-      });
+      }).then(() => console.log('major created\n'));
     });
-  }));
+  });
 }
 
 migrateData(fetchData('major.json') as MajorJSON);
