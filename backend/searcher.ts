@@ -29,12 +29,15 @@ class Searcher {
 
   AGG_RES_SIZE: number;
 
+  COURSE_CODE_PATTERN: RegExp;
+
   constructor() {
     this.elastic = elastic;
     this.subjects = null;
     this.filters = Searcher.generateFilters();
     this.aggFilters = _.pickBy<EsFilterStruct, EsAggFilterStruct>(this.filters, (f): f is EsAggFilterStruct => f.agg !== false);
     this.AGG_RES_SIZE = 1000;
+    this.COURSE_CODE_PATTERN = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
   }
 
   static generateFilters(): FilterPrelude {
@@ -141,10 +144,8 @@ class Searcher {
     return validFilters;
   }
 
-  getFields(query: string): string[] {
-    // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    const courseCodePattern: RegExp = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
-    let fields = [
+  getFields(): string[] {
+    return [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
       'class.subject^4',
@@ -155,21 +156,13 @@ class Searcher {
       'employee.emails',
       'employee.phone',
     ];
-
-    const patternResults = query.match(courseCodePattern);
-    if (patternResults && (this.getSubjects()).has(patternResults[1].toUpperCase())) {
-      // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
-      fields = ['class.subject^10', 'class.classId'];
-    }
-
-    return fields;
   }
 
   /**
    * Get elasticsearch query
    */
   generateQuery(query: string, termId: string, userFilters: FilterInput, min: number, max: number, aggregation: string = ''): EsQuery {
-    const fields: string[] = this.getFields(query);
+    const fields: string[] = this.getFields();
     // text query from the main search box
     const matchTextQuery: LeafQuery = query.length > 0
       ? {
@@ -286,10 +279,9 @@ class Searcher {
     let results; let resultCount; let hydrateDuration; let took; let aggregations;
 
     // if we know that the query is of the format of a course code, we want to return only one result
-    const courseCodePattern: RegExp = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
-    const patternResults = query.match(courseCodePattern);
+    const patternResults = query.match(this.COURSE_CODE_PATTERN);
     const subject = patternResults ? patternResults[1].toUpperCase() : '';
-    if (patternResults && typeof Number(patternResults[2]) === 'number' && (this.getSubjects()).has(subject)) {
+    if (patternResults && macros.isNumeric(patternResults[2]) && (this.getSubjects()).has(subject)) {
       ({
         results, resultCount, took, hydrateDuration, aggregations,
       } = await this.getOneSearchResult(subject, patternResults[2], termId));
