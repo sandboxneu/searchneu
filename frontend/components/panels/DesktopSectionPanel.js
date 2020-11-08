@@ -50,7 +50,7 @@ export default class DesktopSectionPanel extends React.Component {
     let tdElements = [];
 
     // If it is online, just put one super wide cell
-    if (this.props.section.isOnline()) {
+    if (this.props.section.online) {
       // How many cells to span
       // need to span more cells if final exam columns are being shown.
       const length = (this.props.shouldShowExamColumns) ? 6 : 3;
@@ -84,7 +84,7 @@ export default class DesktopSectionPanel extends React.Component {
 
       // Format the location of the section
       let sectionLocations = null;
-      if (!this.props.section.isOnline()) {
+      if (!this.props.section.online) {
         sectionLocations = <LocationLinks locations={ this.props.section.getLocations() } />;
       }
 

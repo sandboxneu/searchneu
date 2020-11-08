@@ -16,7 +16,7 @@ type FilteredKeys<T, U> = { [P in keyof T]: T[P] extends U ? P : never }[keyof T
 type ValueOf<T> = T[keyof T];
 
 // ============== Filter categories ================
-// Filter categories represents the different categories of filters that are possible
+// Filter categoriesrepresents the different categories of filters that are possible
 export const FilterCategories = {
   Toggle: 'Toggle' as 'Toggle',
   Dropdown: 'Dropdown' as 'Dropdown',
@@ -59,17 +59,12 @@ const CLASSTYPE_SPEC: FilterSpec<'Checkboxes'> = {
 const CLASSIDRANGE_SPEC: FilterSpec<'Range'> = {
   category: FilterCategories.Range, default: { min:'', max:'' }, display: 'Course Number', order: 5,
 }
-const CAMPUS_SPEC: FilterSpec<'Dropdown'> = {
-  category: FilterCategories.Dropdown, default: [], display: 'Campus', order: 6,
-}
-
 export const FILTER_SPECS = {
   online: ONLINE_SPEC,
   nupath: NUPATH_SPEC,
   subject: SUBJECT_SPEC,
   classType: CLASSTYPE_SPEC,
   classIdRange: CLASSIDRANGE_SPEC,
-  campus: CAMPUS_SPEC,
 }
 
 // A specification for a filter of category C. Needed for conditional types

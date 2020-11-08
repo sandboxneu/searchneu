@@ -19,10 +19,5 @@ export type Employee = any;
 export type SearchItem = Course | Employee;
 
 export function BLANK_SEARCH_RESULT(): SearchResult {
-  return {
-    results: [],
-    filterOptions: {
-      nupath: [], subject: [], classType: [], campus: [],
-    },
-  }
+  return { results: [], filterOptions: { nupath: [], subject: [], classType: [] } }
 }

@@ -93,7 +93,7 @@ export default class MobileSectionPanel extends React.Component {
 
     // Calculate the end of the title, which depends on whether the class is an online class and whether it has a start time yet.
     let titleEnding;
-    if (this.props.section.isOnline()) {
+    if (this.props.section.online) {
       titleEnding = '-  Online Class';
     } else if (meetingMoments.length > 0) {
       titleEnding = `@ ${meetingMoments[0].start.format('h:mm a')}`;
@@ -119,7 +119,7 @@ export default class MobileSectionPanel extends React.Component {
 
     // Format the location of the section
     let sectionLocations = null;
-    if (!this.props.section.isOnline()) {
+    if (!this.props.section.online) {
       sectionLocations = <LocationLinks locations={ this.props.section.getLocations() } />;
     }
 
@@ -147,19 +147,19 @@ export default class MobileSectionPanel extends React.Component {
               <td className='firstColumn'>Profs</td>
               <td className='secondColumn'>{this.props.section.getProfs().join(', ')}</td>
             </tr>
-            <tr style={{ display: this.props.section.isOnline() && 'none' }}>
+            <tr style={{ display: this.props.section.online && 'none' }}>
               <td className='firstColumn'>Place</td>
               <td className='secondColumn'>
                 {sectionLocations}
               </td>
             </tr>
-            <tr style={{ display: this.props.section.isOnline() && 'none' }}>
+            <tr style={{ display: this.props.section.online && 'none' }}>
               <td className='firstColumn'>Times</td>
               <td className='secondColumn'>
                 {fullTimesString}
               </td>
             </tr>
-            <tr style={{ display: this.props.section.isOnline() && 'none' }}>
+            <tr style={{ display: this.props.section.online && 'none' }}>
               <td className='firstColumn'>Days</td>
               <td className='secondColumn'>
                 <WeekdayBoxes section={ this.props.section } />

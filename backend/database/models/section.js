@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     waitCapacity: DataTypes.INTEGER,
     waitRemaining: DataTypes.INTEGER,
     classType: DataTypes.STRING,
-    campus: DataTypes.STRING,
+    online: DataTypes.BOOLEAN,
     honors: DataTypes.BOOLEAN,
     url: DataTypes.STRING,
     crn: DataTypes.STRING,
