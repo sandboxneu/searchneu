@@ -4,13 +4,12 @@
  */
 
 import _ from 'lodash';
-import { Op } from 'sequelize';
 
 import macros from './macros';
+import prisma from './prisma';
 import Keys from '../common/Keys';
 import notifyer from './notifyer';
 import dumpProcessor from './dumpProcessor';
-import { Course, Section, sequelize } from './database/models/index';
 import HydrateCourseSerializer from './database/serializers/hydrateCourseSerializer';
 import termParser from './scrapers/classes/parsersxe/termParser';
 import { Course as CourseType, Section as SectionType } from './types';
@@ -112,7 +111,7 @@ class Updater {
     }
 
     // scrape everything
-    const sections: Section[] = await termParser.parseSections(this.SEM_TO_UPDATE);
+    const sections: SectionType[] = await termParser.parseSections(this.SEM_TO_UPDATE);
     const newSectionsByClass: Record<string, string[]> = {};
 
     for (const sec of sections) {
@@ -141,7 +140,7 @@ class Updater {
     });
 
     await this.sendMessages(notifications, classHashToUsers, sectionHashToUsers);
-    await dumpProcessor.main({ termDump: { sections } });
+    await dumpProcessor.main({ termDump: { sections, classes: {} } });
 
     const totalTime = Date.now() - startTime;
 
@@ -155,17 +154,16 @@ class Updater {
 
   // Return an Object of the list of users associated with what class or section they are following
   async modelToUserHash(modelName: ModelName): Promise<Record<string, string[]>> {
-    const columnName = `${modelName}Id`;
-    const capitalizedName = `${modelName.charAt(0).toUpperCase() + modelName.slice(1)}s`;
-    const dbResults = await sequelize.query(`SELECT "${columnName}", ARRAY_AGG("userId") FROM "Followed${capitalizedName}" GROUP BY "${columnName}"`,
-      { type: sequelize.QueryTypes.SELECT });
-    return Object.assign({}, ...dbResults.map((res) => ({ [res[columnName]]: res.array_agg })));
+    const columnName = `${modelName}_id`;
+    const pluralName = `${modelName}s`;
+    const dbResults = await prisma.$queryRaw(`SELECT ${columnName}, ARRAY_AGG("user_id") FROM followed_${pluralName} GROUP BY ${columnName}`);
+    return Object.assign({}, ...dbResults.map((res) => ({ [res[columnName]]: res.array_agg.sort() })));
   }
 
 
   // return a collection of data structures used for simplified querying of data
   async getOldData(classHashes: string[]): Promise<OldData> {
-    const oldDocs: Record<string, SerializedResult> = await (new HydrateCourseSerializer(Section)).bulkSerialize(await Course.findAll({ where: { id: { [Op.in]: classHashes } } }));
+    const oldDocs: Record<string, SerializedResult> = await (new HydrateCourseSerializer()).bulkSerialize(await prisma.course.findMany({ where: { id: { in: classHashes } } }));
 
     const oldWatchedClasses: Record<string, CourseType> = {};
     for (const [classHash, doc] of Object.entries(oldDocs)) {

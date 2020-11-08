@@ -1,12 +1,11 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory } from 'react-router-dom';
 import macros from '../macros';
 import EmployeePanel from '../panels/EmployeePanel';
-import DesktopClassPanel from '../panels/DesktopClassPanel';
-import MobileClassPanel from '../panels/MobileClassPanel';
+import SearchResult from './Results/SearchResult'
+import MobileSearchResult from './Results/MobileSearchResult'
 
-import Class from '../classModels/Class';
+import Course from '../classModels/Course';
 import Keys from '../../../common/Keys';
 import { SearchItem } from '../types';
 
@@ -25,7 +24,7 @@ function ResultsLoader({ results, loadMore }: ResultsLoaderProps) {
     >
       <div className='five column row'>
         <div className='page-home'>
-          {results.map((result) => (
+          {results.filter((result) => result !== null && result !== undefined).map((result) => (
             <ResultItemMemoized
               key={ result.type === 'class' ? Keys.getClassHash(result.class) : result.employee.id }
               result={ result }
@@ -40,16 +39,12 @@ function ResultsLoader({ results, loadMore }: ResultsLoaderProps) {
 // Memoize result items to avoid unneeded re-renders and to reuse
 // If the Panels are updated to function components, we can memoize them instead and remove this
 const ResultItemMemoized = React.memo(({ result }:{result:SearchItem}) => {
-  const history = useHistory();
-
   if (result.type === 'class') {
-    const aClass = Class.create(result.class);
+    const aClass = Course.create(result.class);
     aClass.loadSectionsFromServerList(result.sections);
-    if (macros.isMobile) {
-      return <MobileClassPanel aClass={ aClass } history={ history } />;
-    }
 
-    return <DesktopClassPanel aClass={ aClass } history={ history } />;
+
+    return macros.isMobile ? <MobileSearchResult aClass={ aClass } /> : <SearchResult aClass={ aClass } />;
   }
 
   if (result.type === 'employee') {

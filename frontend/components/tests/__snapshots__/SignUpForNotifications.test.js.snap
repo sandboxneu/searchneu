@@ -4,13 +4,22 @@ exports[`should render 1`] = `
 <div
   className="sign-up-for-notifications-container"
 >
-  <Button
-    as="button"
-    basic={true}
-    className="notificationButton"
-    content="Get notified when seats open up!"
+  <div
+    className="initialNotificationButton"
+    focusable="true"
     onClick={[Function]}
-  />
+    role="button"
+    tabIndex={0}
+  >
+    <_default
+      fill="#d41b2c"
+      height="14"
+      width="18"
+    />
+    <span>
+      Get notified when seats open up!
+    </span>
+  </div>
   <Modal
     actions={
       Array [
@@ -25,7 +34,7 @@ exports[`should render 1`] = `
     centered={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
-    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send us a message at hey@searchneu.com."
     dimmer={true}
     eventPool="Modal"
     header="Please disable adblock and sign into Facebook."
@@ -38,13 +47,13 @@ exports[`should render 2`] = `
 <div
   className="sign-up-for-notifications-container"
 >
-  <Button
-    as="button"
-    basic={true}
-    className="notificationButton"
-    content="Toggle the sections you want to be notified for!"
-    disabled={true}
-  />
+  <div
+    className="toggleCTA"
+  >
+    <span>
+      Toggle the sections you want to be notified for!
+    </span>
+  </div>
   <Modal
     actions={
       Array [
@@ -59,7 +68,7 @@ exports[`should render 2`] = `
     centered={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
-    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send us a message at hey@searchneu.com."
     dimmer={true}
     eventPool="Modal"
     header="Please disable adblock and sign into Facebook."
@@ -93,7 +102,7 @@ exports[`should render the fb button after the button is clicked 1`] = `
     centered={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
-    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send us a message at hey@searchneu.com."
     dimmer={true}
     eventPool="Modal"
     header="Please disable adblock and sign into Facebook."

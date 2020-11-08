@@ -70,7 +70,8 @@ If you get installation errors, try deleting the `node_modules` folder and runni
 ### Start Databases
 
 1. Run `yarn dev:docker` to start Elasticsearch and Postgres in docker. This is just short for going into `infrastructure/dev` and running `docker-compose up`. 
-2. Run `yarn dev:migrate` to put the right columns in Postgres.
+2. Run `yarn db:migrate` to put the right columns in Postgres.
+3. Run `yarn:db:refresh` to synchronize the ORM with the database.
 
 `yarn dev:docker:del` will delete the entire ES and PG databases! Useful if you need to just hard reset.
 

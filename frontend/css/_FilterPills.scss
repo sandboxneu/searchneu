@@ -28,6 +28,19 @@
   }
 }
 
+/* for clearing filters when there are no results */
+.no-results__clear {
+  cursor: pointer;
+  color: #d41b2c;
+  padding: 0 5px;
+  display: inline;
+  line-height: 30px;
+}
+
+.no-results__clear:hover {
+  text-decoration: underline;
+}
+
 .FilterPill {
   $root: &;
 

@@ -74,7 +74,7 @@ class FeedbackModal extends React.Component {
     macros.logAmplitudeEvent('Feedback', { text: this.state.messageValue, contact: this.state.contactValue });
 
     const response = await request.post({
-      url: '/submitFeedback',
+      url: '/feedback',
       body: {
         message: this.state.messageValue,
         contact: this.state.contactValue,

@@ -366,7 +366,7 @@ The next step of the process is to scrape all of the sections.  This information
 
         // Meeting times of this section. 
         // This schema is kindof odd and may be changed in the future. 
-        // I would recommend creating an instance of Section.js in either the frontend or backend, which handles the parsing of this data structure. 
+        // I would recommend creating an instance of Section.ts in either the frontend or backend, which handles the parsing of this data structure. 
         "times": {
 
             // Meetings that occur on the second day of the week.   

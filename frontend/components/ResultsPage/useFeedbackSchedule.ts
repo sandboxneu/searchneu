@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Hook for enabling a component to only render at scheduled intervals
+ * @param keyString key string to set flag in localstorage
+ * @param timeout desired duration until component appears again in milliseconds
+ */
 export default function useFeedbackSchedule(keyString: string, timeout: number) : [boolean, () => void] {
   const [show, setShow] = useState(true);
 

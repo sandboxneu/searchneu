@@ -24,6 +24,55 @@
     margin-right: 0;
   }
 
+  .toggleCTA {
+    margin-top: 4px;
+    color: #338ef1;
+    width: 60%;
+    margin-left: 40%;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+  }
+
+  .allSeatsAvailable {
+    margin-top: 4px;
+    color: #27ae34;
+    width: 60%;
+    margin-left: 40%;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+  }
+
+  .initialNotificationButton {
+    cursor: pointer;
+    border-radius: 5px;
+    background: #fff;
+    border: 1px solid rgba(79, 79, 79, 0.5);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &:hover {
+      background: #fafafa;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    & > svg {
+      margin-right: 8px;
+    }
+
+    & > span {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 25px;
+    }
+  }
+
   @media only screen and (min-width: 767px) {
     .notificationButton {
       font-size: 15px !important;
@@ -47,6 +96,40 @@
   .facebookButtonContainer {
     display: flex;
     margin-top: 4px;
+    position: relative;
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+
+    & > .inlineBlock > .fb-send-to-messenger {
+      opacity: 1;
+      height: 100%;
+    }
+
+    &__button {
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-content: center;
+      padding: 10px;
+      border: 1px solid rgba(79, 79, 79, 0.5);
+
+      &:focus {
+        outline: none;
+      }
+
+      & > span {
+        font-size: 13px;
+        line-height: 25px;
+      }
+
+      & > svg {
+        margin-right: 8px;
+      }
+    }
   }
 
   .sendToMessengerButtonLabel {
@@ -80,5 +163,37 @@
 
   .inlineBlock {
     display: inline-block;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .initialNotificationButton {
+      width: max-content;
+    }
+
+    .toggleCTA {
+      margin-top: 0;
+      margin-left: 0;
+      width: 100%;
+
+      & > span {
+        width: 60%;
+        display: inline-block;
+      }
+    }
+
+    .allSeatsAvailable {
+      margin-top: 0;
+      margin-left: 0;
+      width: 100%;
+
+      & > span {
+        width: 60%;
+        display: inline-block;
+      }
+    }
+
+    .facebookButtonContainer {
+      margin-right: 16px;
+    }
   }
 }

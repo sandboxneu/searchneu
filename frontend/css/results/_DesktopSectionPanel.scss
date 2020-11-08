@@ -1,0 +1,59 @@
+.DesktopSectionPanel {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+
+  &__meetings {
+    display: flex;
+    margin-bottom: 6px;
+
+    & > .WeekdayBoxes {
+      margin-right: 24px;
+    }
+
+    &--times > span {
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      display: inline-block;
+      margin-bottom: 4px;
+      text-align: right;
+      width: max-content;
+    }
+  }
+
+  &__meetings:last-child {
+    margin-bottom: 0;
+  }
+
+  & > td:nth-child(3) {
+    width: 35%;
+  }
+
+  & > td:nth-child(5) {
+    line-height: 20px;
+
+    & > .green {
+      color: #27ae34;
+    }
+
+    & > .yellow {
+      color: #ffbf3d;
+    }
+
+    & > .red {
+      color: #d41b2c;
+    }
+
+    & span:nth-of-type(2) {
+      font-style: italic;
+    }
+  }
+
+  &__notifs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

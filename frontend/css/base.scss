@@ -28,8 +28,13 @@
 @import 'FilterPills';
 @import 'Filters';
 @import 'MobileSearchOverlay';
-@import 'FeedbackHeader';
 @import 'FeedbackModal';
+@import 'results/SearchResult';
+@import 'results/WeekdayBoxes';
+@import 'results/DesktopSectionPanel';
+@import 'results/MobileSearchResult';
+@import 'results/MobileSectionPanel';
+@import 'results/NotifCheckBox';
 
 html,
 body,

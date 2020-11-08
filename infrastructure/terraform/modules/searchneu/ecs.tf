@@ -195,6 +195,11 @@ locals {
       name        = "dbHost"
       value       = aws_db_instance.default.address
       description = "Postgres database host"
+    },
+    {
+      name        = "DATABASE_URL"
+      value       = "postgresql://${aws_db_instance.default.username}:${aws_db_instance.default.password}@${aws_db_instance.default.endpoint}/${module.label.name}"
+      description = "Postgres database URL"
     }
   ])
   # For some insane reason the secrets list is unstable. We have to sort it to prevent recreating the params every time.
@@ -221,7 +226,7 @@ locals {
 # Maybe use a KMS for better security?
 # Also this module https://github.com/cloudposse/terraform-aws-ssm-parameter-store is nice but not up to date with Terraform 0.12
 resource "aws_ssm_parameter" "default" {
-  count           = length(var.secrets) + 5
+  count           = length(var.secrets) + 6
   name            = "/${var.stage}/${lookup(local.all_secrets[count.index], "name")}"
   description     = lookup(local.all_secrets[count.index], "description", lookup(local.all_secrets[count.index], "name"))
   type            = "SecureString"

@@ -73,7 +73,7 @@ class User {
     // modify the user and update the backend
     // can wait for this to finish before running.
     this.userDataPromise = request.post({
-      url: '/getUserData',
+      url: '/user',
       body: body,
     }).then((response) => {
       // If error, delete local invalid data.
@@ -181,8 +181,8 @@ class User {
       },
     };
 
-    await request.post({
-      url: '/removeSection',
+    await request.delete({
+      url: '/subscription',
       body: body,
     });
 
@@ -223,11 +223,6 @@ class User {
       loginKey: this.getLoginKey(),
       senderId: window.localStorage.senderId,
       sectionHash: sectionHash,
-      notifData: {
-        classId: section.classId,
-        subject: section.subject,
-        crn: section.crn,
-      },
     };
 
     if (!this.user.watchingClasses.includes(classHash)) {
@@ -245,7 +240,7 @@ class User {
     macros.log('Adding section to user', this.user, sectionHash, body);
 
     await request.post({
-      url: '/addSection',
+      url: '/subscription',
       body: body,
     });
 
@@ -277,14 +272,10 @@ class User {
       loginKey: this.getLoginKey(),
       senderId: window.localStorage.senderId,
       classHash: classHash,
-      notifData: {
-        classId: aClass.classId,
-        subject: aClass.subject,
-      },
     };
 
     await request.post({
-      url:'/addClass',
+      url:'/subscription',
       body: body,
     });
 

@@ -1,0 +1,39 @@
+.WeekdayBoxes {
+  display: inline-flex;
+  flex-direction: row;
+  width: 126px;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+
+  &__box {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: #fafafb;
+    color: #979797;
+    border: 0.5px solid #979797;
+
+    &--checked {
+      display: block;
+      width: 18px;
+      height: 18px;
+      background: #a5c0dd;
+      color: #000;
+      border: 0.5px solid #979797;
+    }
+  }
+
+  &__box:nth-child(even) {
+    border-left: none;
+    border-right: none;
+  }
+
+  &__box--checked:nth-child(even) {
+    border-left: none;
+    border-right: none;
+  }
+}

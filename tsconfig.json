@@ -9,7 +9,8 @@
   "include": [
     "./frontend/**/*",
     "./backend/**/*",
-    "./common/**/*"
+    "./common/**/*",
+    "./scripts/**/*"
   ],
   "exclude": [
     "node_modules"

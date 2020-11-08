@@ -26,7 +26,7 @@ When you are typing something into the box, it just loads the first 5 results. M
 
 # Scoring
 
-All the fields get different boostings. Check `server.js` for current setup.
+All the fields get different boostings. Check `server.ts` for current setup.
 
 # Optimizations
 

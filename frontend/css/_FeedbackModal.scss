@@ -77,9 +77,69 @@
     color: black;
     margin-left: 14px;
     width: 180px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 23px;
     user-select: none;
+  }
+
+  &__initial {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__initialText {
+    margin-top: 10px;
+    padding-left: 32px;
+    margin-left: 12px;
+    flex-grow: 1;
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    position: relative;
+    width: 200px;
+
+    &:hover {
+      background: #eaeaea;
+    }
+  }
+
+  &__initialText > input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+  }
+
+  &__initialRadio::after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #338ef1;
+  }
+
+  &__initialText > input:checked + .FeedbackModal__initialRadio::after {
+    display: block;
+  }
+
+  &__initialRadio {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    height: 14px;
+    width: 14px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.42);
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__checkBoxes {
@@ -170,17 +230,91 @@
     display: block;
   }
 
+  &__freeSelector {
+    margin: 12px 10px;
+  }
+
+  &__freeSelector > input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    height: 16px;
+    width: 16px;
+  }
+
+  &__freeSelectorLeft {
+    display: inline-block;
+    width: 68px;
+    height: 28px;
+    text-align: center;
+    padding-top: 2px;
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid #dededf;
+    border-radius: 3px 0 0 3px;
+    cursor: pointer;
+  }
+
+  &__freeSelectorCenter {
+    display: inline-block;
+    width: 68px;
+    height: 28px;
+    text-align: center;
+    padding-top: 2px;
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid #dededf;
+    cursor: pointer;
+  }
+
+  &__freeSelectorRight {
+    display: inline-block;
+    width: 68px;
+    height: 28px;
+    text-align: center;
+    padding-top: 2px;
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid #dededf;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+  }
+
+  &__freeSelector > input:checked + .FeedbackModal__freeSelectorLeft,
+  &__freeSelector > input:checked + .FeedbackModal__freeSelectorCenter,
+  &__freeSelector > input:checked + .FeedbackModal__freeSelectorRight {
+    border: 1px solid #489fff;
+    color: #489fff;
+  }
+
+  &__freeQuery {
+    margin: 0 10px;
+    width: 204px;
+    height: 90px;
+    border: 1px solid #dededf;
+    border-radius: 3px;
+    resize: none;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
   &__submit {
     background: #338ef1;
     width: 210px;
     height: 24px;
     border-radius: 4px;
-    margin-left: 7px;
-    margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: absolute;
+    left: 7px;
+    top: 250px;
 
     &:focus {
       outline: none;
@@ -191,12 +325,13 @@
       width: 210px;
       height: 24px;
       border-radius: 4px;
-      margin-left: 7px;
-      margin-top: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      position: absolute;
+      left: 7px;
+      top: 250px;
 
       &:focus {
         outline: none;

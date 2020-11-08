@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: install node v12
+    - name: install node v12.16
       uses: actions/setup-node@v1
       with:
-        node-version: 12
+        node-version: '12.16'
     - run: yarn install
     - run: yarn test
   seqtest:
@@ -35,10 +35,9 @@ jobs:
         options: --health-cmd "curl localhost:9200/_cluster/health" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v1
-    - name: install node v12
+    - name: install node v12.16
       uses: actions/setup-node@v1
       with:
-        node-version: 12
+        node-version: '12.16'
     - run: yarn install
-    - run: yarn test:migrate
-    - run: yarn seqtest
+    - run: yarn dbtest

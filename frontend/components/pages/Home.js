@@ -23,7 +23,7 @@ const ATTENTION_SECTION = {
 const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
 // The lastest term
-const LATEST_TERM = '202110';
+const LATEST_TERM = '202130';
 
 const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 
@@ -105,7 +105,6 @@ export default function Home() {
               termId={ termId }
               onChange={ setTermId }
             />
-
             <div className={ cx({
               hitEnterToSearch: true,
               hitEnterToSearchVisible: searchFocused,

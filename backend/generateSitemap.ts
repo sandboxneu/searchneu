@@ -4,7 +4,7 @@
  */
 
 import macros from './macros';
-import { Course, Professor } from './database/models';
+import prisma from './prisma';
 
 // This file generates https://searchneu.com/sitemap.xml
 // This helps SIGIFICANTLY with SEO on Google (and other search engines).
@@ -18,12 +18,15 @@ export default async function generateSitemap(): Promise<string> {
   const start = Date.now();
   let items = [];
 
-  const terms: {termId:string}[] = (await Course.findAll({
-    attributes: ['termId'],
-    group: ['termId'],
-    order: [['termId', 'DESC']],
-    limit: 1,
-    raw: true,
+  const terms: {termId:string}[] = (await prisma.course.findMany({
+    select: { termId: true },
+    distinct: ['termId'],
+    orderBy: { termId: 'desc' },
+    // attributes: ['termId'],
+    // group: ['termId'],
+    // order: [['termId', 'DESC']],
+    // limit: 1,
+    // raw: true,
   }));
   if (terms.length === 0) {
     macros.error('could not generate sitemap');
@@ -34,10 +37,9 @@ export default async function generateSitemap(): Promise<string> {
   macros.log('The current term is:', currentTerm);
 
   // Add the classes
-  const courses = await Course.findAll({
-    attributes: ['subject', 'classId', 'name'],
+  const courses = await prisma.course.findMany({
+    select: { subject: true, classId: true, name: true },
     where: { termId: currentTerm },
-    raw: true,
   });
   for (const course of courses) {
     items.push(`${course.subject} ${course.classId}`);
@@ -45,10 +47,8 @@ export default async function generateSitemap(): Promise<string> {
   }
 
   // Add the employees
-  const employees = await Professor.findAll({
-    attributes: ['name'],
-    benchmark: true,
-    raw: true,
+  const employees = await prisma.course.findMany({
+    select: { name: true },
   });
   for (const employee of employees) {
     items.push(employee.name);

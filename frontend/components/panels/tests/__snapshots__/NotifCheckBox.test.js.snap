@@ -5,12 +5,25 @@ exports[`render the default notification checkbox 1`] = `
   className="inlineBlock"
   data-tip="Sign up for notifications for this section"
 >
-  <Checkbox
-    checked={false}
-    onChange={[Function]}
-    toggle={true}
-    type="checkbox"
-  />
+  <div
+    className="notifSwitch"
+  >
+    <input
+      checked={false}
+      className="notif-switch-checkbox"
+      id="notifSwitch-1"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      className="notif-switch-label"
+      htmlFor="notifSwitch-1"
+    >
+      <span
+        className="notif-switch-button"
+      />
+    </label>
+  </div>
 </div>
 `;
 
@@ -19,11 +32,24 @@ exports[`render the read only notification checkbox 1`] = `
   className="inlineBlock"
   data-tip="Sign up for notifications for this section"
 >
-  <Checkbox
-    checked={false}
-    onChange={[Function]}
-    toggle={true}
-    type="checkbox"
-  />
+  <div
+    className="notifSwitch"
+  >
+    <input
+      checked={false}
+      className="notif-switch-checkbox"
+      id="notifSwitch-2"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      className="notif-switch-label"
+      htmlFor="notifSwitch-2"
+    >
+      <span
+        className="notif-switch-button"
+      />
+    </label>
+  </div>
 </div>
 `;

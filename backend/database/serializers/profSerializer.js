@@ -4,10 +4,12 @@
  */
 import _ from 'lodash';
 
-/* eslint-disable no-underscore-dangle */
 class ProfSerializer {
+  /* eslint-disable no-underscore-dangle */
   async bulkSerialize(instances) {
-    return _.keyBy(instances.map((instance) => this._bulkSerializeProf(this._serializeProf(instance))), (res) => res.employee.id);
+    return _.keyBy(instances.map((instance) => {
+      return this._bulkSerializeProf(this._serializeProf(instance));
+    }), (res) => res.employee.id);
   }
 
   _bulkSerializeProf(prof) {
@@ -17,8 +19,8 @@ class ProfSerializer {
     };
   }
 
-  _serializeProf(instance) {
-    return _(instance.dataValues).pick(this.profCols()).value();
+  _serializeProf() {
+    throw new Error('serializeProf not implemented');
   }
 }
 

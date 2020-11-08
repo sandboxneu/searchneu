@@ -1,8 +1,0 @@
-const path = require('path');
-const base = process.env.NODE_ENV === 'prod' ? './dist' : './'
-
-module.exports = {
-  'config': path.resolve(base, 'backend', 'database', 'config', 'config.js'),
-  'models-path': path.resolve(base, 'backend', 'database', 'models'),
-  'migrations-path': path.resolve(base, 'backend', 'database', 'migrations')
-}
