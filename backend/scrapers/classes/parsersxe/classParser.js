@@ -5,7 +5,6 @@
 
 import he from 'he';
 import Keys from '../../../../common/Keys';
-import macros from '../../../macros';
 import Request from '../../request';
 import PrereqParser from './prereqParser';
 import util from './util';
@@ -172,14 +171,17 @@ class ClassParser {
     return obj.values.reduce((acc, val) => {
       if (val.type) {
         return { ...this.getRefsFromJson(val, termId), ...acc };
-      } else {
-        const {subject, classId} = val;
-        if (!subject || !classId) {
-          return acc;
-        } else {
-          return { ...acc, [Keys.getClassHash({ subject, classId, termId, host: 'neu.edu' })]: { subject, classId, termId } };
-        }
       }
+      const { subject, classId } = val;
+      if (!subject || !classId) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [Keys.getClassHash({
+          subject, classId, termId, host: 'neu.edu',
+        })]: { subject, classId, termId },
+      };
     }, {});
   }
 }
