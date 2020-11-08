@@ -118,10 +118,6 @@ class TermParser {
     return Promise.reject();
   }
 
-  getCourseKey(termId, subject, courseCode) {
-    return `neu.edu/${termId}/${subject}/${courseCode}`;
-  }
-
   /**
    * Send paginated requests and merge the results
    * @param {TermParser~doRequest} doRequest - The callback that sends the response.
