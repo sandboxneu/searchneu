@@ -3,7 +3,7 @@ resource "aws_db_instance" "default" {
   identifier             = module.label.id
   allocated_storage      = 20
   engine                 = "postgres"
-  engine_version         = "11.5"
+  engine_version         = "11.8"
   instance_class         = "db.t3.micro"
   name                   = module.label.name
   username               = "postgres"

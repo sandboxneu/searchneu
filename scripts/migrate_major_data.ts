@@ -32,7 +32,7 @@ function migrateData(majorDirectory: MajorJSON): void {
           name: m.name,
           majorId: m.majorId,
         }
-      }).then(() => prisma.$disconnect());
+      }).then(() => console.log('major created\n'));
     });
   });
 }
