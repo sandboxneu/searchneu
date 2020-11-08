@@ -43,14 +43,20 @@ describe('classParser', () => {
       expect(await ClassParser.parseClassFromSearchResult(data.cs2500, '202010')).toMatchSnapshot();
     });
   });
-  
+
   describe('getRefsFromJSON', () => {
     it('collects references from prereq blob', () => {
-      const prereqObj =  {type: "and", values: [{classId: "3450", subject: "ARTG"}, 
-      {classId: "3350", subject: "ARTG"}]};
+      const prereqObj = {
+        type: 'and',
+        values: [{ classId: '3450', subject: 'ARTG' },
+          { classId: '3350', subject: 'ARTG' }],
+      };
       expect(ClassParser.getRefsFromJson(prereqObj, '202030')).toEqual(
-        {'neu.edu/202030/ARTG/3450': { subject: 'ARTG', termId: '202030', classId: '3450' }, 
-        'neu.edu/202030/ARTG/3350' : { subject: 'ARTG', termId: '202030', classId: '3350' }});
+        {
+          'neu.edu/202030/ARTG/3450': { subject: 'ARTG', termId: '202030', classId: '3450' },
+          'neu.edu/202030/ARTG/3350' : { subject: 'ARTG', termId: '202030', classId: '3350' },
+        },
+      );
     });
   });
 
@@ -78,7 +84,7 @@ describe('classParser', () => {
           'neu.edu/202030/CS/2511' : { subject: 'CS', termId: '202030', classId: '2511' },
           'neu.edu/202030/CS/3500' : { subject: 'CS', termId: '202030', classId: '3500' },
           'neu.edu/202030/CS/3000' : { subject: 'CS', termId: '202030', classId: '3000' },
-        }
+        },
       )
     })
   })
