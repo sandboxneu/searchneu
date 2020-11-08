@@ -8,6 +8,12 @@
 
 import { BackendMeeting } from '../common/types';
 
+export const NEU_COLLEGE = 'NEU';
+export const CPS_COLLEGE = 'CPS';
+export const LAW_COLLEGE = 'LAW';
+
+export type CollegeNames = 'NEU' | 'CPS' | 'LAW';
+
 export interface Employee {
   name: string,
   firstName: string,
