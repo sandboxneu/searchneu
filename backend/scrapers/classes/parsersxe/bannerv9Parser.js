@@ -20,8 +20,8 @@ const request = new Request('bannerv9Parser');
 class Bannerv9Parser {
   async main(termsUrl) {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
-    const suffixes = ['10', '30', '40', '50', '60'];
-    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
+    const suffixes = ['10', '12', '14', '15', '18', '25', '28', '30', '32', '34', '35', '38', '40', '50', '52', '54', '55', '58', '60'];
+    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, suffixes.length);
     macros.log(`scraping terms: ${undergradIds}`);
     return this.scrapeTerms(undergradIds);
   }
