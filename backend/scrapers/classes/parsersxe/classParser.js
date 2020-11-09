@@ -12,14 +12,6 @@ import SubjectAbbreviationParser from './subjectAbbreviationParser';
 
 const request = new Request('classParser');
 
-const collegeNames = {
-  0: 'NEU',
-  2: 'LAW',
-  8: 'LAW',
-  4: 'CPS',
-  5: 'CPS',
-}
-
 class ClassParser {
   /**
    * Build class data from scratch, sending a new search result query for this specific class.
@@ -79,7 +71,6 @@ class ClassParser {
       lastUpdateTime: Date.now(),
       maxCredits: SR.creditHourLow,
       minCredits: SR.creditHourHigh || SR.creditHourLow,
-      college: collegeNames[termId.charAt(termId.length - 1)],
     };
     if (prereqs) {
       classDetails.prereqs = prereqs;
