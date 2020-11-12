@@ -122,7 +122,7 @@ class Section {
 
   // Unique list of all professors in all meetings, sorted alphabetically
   getProfs() : string[] {
-    return this.profs.length > 0 ? Array.from(this.profs).sort() : ['TBA'];
+    return this.profs.length > 0 ? Array.from(this.profs.map((prof) => _.unescape(prof))).sort() : ['TBA'];
   }
 
   getLocations(ignoreExams = true) : string[] {
