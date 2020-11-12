@@ -4,12 +4,21 @@
  */
 
 import he from 'he';
+import Keys from '../../../../common/Keys';
 import Request from '../../request';
 import PrereqParser from './prereqParser';
 import util from './util';
 import SubjectAbbreviationParser from './subjectAbbreviationParser';
 
 const request = new Request('classParser');
+
+const collegeNames = {
+  0: 'NEU',
+  2: 'LAW',
+  8: 'LAW',
+  4: 'CPS',
+  5: 'CPS',
+}
 
 class ClassParser {
   /**
@@ -36,7 +45,7 @@ class ClassParser {
       jar: cookiejar,
       json: true,
     });
-    if (req.body.success) {
+    if (req.body.success && req.body.data && req.body.data[0]) {
       return this.parseClassFromSearchResult(req.body.data[0], termId);
     }
     return false;
@@ -49,13 +58,11 @@ class ClassParser {
    */
   async parseClassFromSearchResult(SR, termId) {
     const subjectAbbreviations = await SubjectAbbreviationParser.getSubjectAbbreviations(termId);
-
     const { subjectCode, courseNumber } = SR;
     const description = await this.getDescription(termId, subjectCode, courseNumber);
     const prereqs = await this.getPrereqs(termId, subjectCode, courseNumber, subjectAbbreviations);
     const coreqs = await this.getCoreqs(termId, subjectCode, courseNumber, subjectAbbreviations);
     const attributes = await this.getAttributes(termId, subjectCode, courseNumber);
-
     const classDetails = {
       host: 'neu.edu',
       termId: termId,
@@ -72,6 +79,7 @@ class ClassParser {
       lastUpdateTime: Date.now(),
       maxCredits: SR.creditHourLow,
       minCredits: SR.creditHourHigh || SR.creditHourLow,
+      college: collegeNames[termId.charAt(termId.length - 1)],
     };
     if (prereqs) {
       classDetails.prereqs = prereqs;
@@ -140,6 +148,41 @@ class ClassParser {
       cache: false,
     });
     return req;
+  }
+
+  getAllCourseRefs(course) {
+    const termId = course.termId;
+    const prereqRefs = this.getRefsFromJson(course.prereqs, termId);
+    const coreqRefs = this.getRefsFromJson(course.coreqs, termId);
+    const prereqForRefs = this.getRefsFromJson(course.prereqsFor, termId);
+    const optPrereqForRefs = this.getRefsFromJson(course.optPrereqsFor, termId);
+
+    return {
+      ...prereqRefs,
+      ...coreqRefs,
+      ...prereqForRefs,
+      ...optPrereqForRefs,
+    };
+  }
+
+  getRefsFromJson(obj, termId) {
+    if (!obj) return {};
+
+    return obj.values.reduce((acc, val) => {
+      if (val.type) {
+        return { ...this.getRefsFromJson(val, termId), ...acc };
+      }
+      const { subject, classId } = val;
+      if (!subject || !classId) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [Keys.getClassHash({
+          subject, classId, termId, host: 'neu.edu',
+        })]: { subject, classId, termId },
+      };
+    }, {});
   }
 }
 
