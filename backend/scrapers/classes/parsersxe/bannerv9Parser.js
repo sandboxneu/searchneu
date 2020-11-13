@@ -18,6 +18,38 @@ const request = new Request('bannerv9Parser');
  * Top level parser. Exposes nice interface to rest of app.
  */
 class Bannerv9Parser {
+  /**
+   * termIds are six-character numeral strings, e.g. `202130`.
+   * The termIds in Banner obey the following pattern:
+   * - The first four characters designate the school year
+   *   - `2021__` corresponds to the 2020-2021 school year
+   * - The second-to-last character correspond to the semester/quarter
+   *   +----+-----------+
+   *   | 10 | Fall      |
+   *   +----+-----------+
+   *   | 20 | Winter    |
+   *   +----+-----------+
+   *   | 30 | Spring    |
+   *   +----+-----------+
+   *   | 40 | Summer I  |
+   *   +----+-----------+
+   *   | 50 | Summer    |
+   *   +----+-----------+
+   *   | 60 | Summer II |
+   *   +----+-----------+
+   * - the last character corresponds to the school
+   *   +----+----------------+
+   *   | 00 | Regular        |
+   *   +----+----------------+
+   *   | 02 | Law Semester   |
+   *   +----+----------------+
+   *   | 04 | CPS Semester   |
+   *   +----+----------------+
+   *   | 05 | CPS Quarter    |
+   *   +----+----------------+
+   *   | 08 | Law Quarter    |
+   *   +----+----------------+
+   */
   async main(termsUrl) {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '12', '14', '15', '18', '25', '28', '30', '32', '34', '35', '38', '40', '50', '52', '54', '55', '58', '60'];
