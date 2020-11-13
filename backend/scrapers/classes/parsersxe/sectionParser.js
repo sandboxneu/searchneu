@@ -46,7 +46,7 @@ class SectionParser {
       waitCapacity: SR.waitCapacity,
       waitRemaining: SR.waitAvailable,
       classType: SR.scheduleTypeDescription,
-      online: SR.campusDescription === 'Online',
+      campus: SR.campusDescription,
       honors: SR.sectionAttributes.some((a) => { return a.description === 'Honors'; }),
       url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
       + `?term_in=${SR.term}&crn_in=${SR.courseReferenceNumber}`,

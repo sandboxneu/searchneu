@@ -91,7 +91,7 @@ class DumpProcessor {
       id: this.strTransform,
       info: this.strTransform,
       meetings: this.jsonTransform,
-      online: this.boolTransform,
+      campus: this.strTransform,
       profs: this.arrayTransform,
       profs_contents: this.arrayStrTransform,
       seats_capacity: this.intTransform,
@@ -101,7 +101,7 @@ class DumpProcessor {
       wait_remaining: this.intTransform,
     };
 
-    const sectionCols = ['class_hash', 'class_type', 'crn', 'honors', 'id', 'info', 'meetings', 'online', 'profs', 'seats_capacity', 'seats_remaining', 'url', 'wait_capacity', 'wait_remaining'];
+    const sectionCols = ['class_hash', 'class_type', 'crn', 'honors', 'id', 'info', 'meetings', 'campus', 'profs', 'seats_capacity', 'seats_remaining', 'url', 'wait_capacity', 'wait_remaining'];
 
     const coveredTerms: Set<string> = new Set();
 

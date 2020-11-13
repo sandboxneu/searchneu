@@ -23,7 +23,8 @@ class Bannerv9Parser {
     const suffixes = ['10', '30', '40', '50', '60'];
     const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 6);
     macros.log(`scraping terms: ${undergradIds}`);
-    return this.scrapeTerms(undergradIds);
+    // return this.scrapeTerms(undergradIds);
+    return this.scrapeTerms(['202130']);
   }
 
   /**
