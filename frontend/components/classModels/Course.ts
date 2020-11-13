@@ -285,9 +285,10 @@ class Course {
 
 
     //name and description could have HTML entities in them, like &#x2260;, which we need to convert to actuall text
+    //there are also nested html tags like <i>...</i>, which we need to remove.
     //setting the innerHTML instead of innerText will work too, but this is better
     if (config.desc) {
-      this.desc = he.decode(config.desc);
+      this.desc = he.decode(config.desc).replace(/(<([^>]+)>)/ig, '');
     }
     if (config.name) {
       this.name = he.decode(config.name);
