@@ -93,7 +93,7 @@ class ClassParser {
   async getDescription(termId, subject, courseNumber) {
     const req = await this.courseSearchResultsPostRequest('getCourseDescription', termId, subject, courseNumber);
     // Double decode the description, because banner double encodes the description :(
-    return he.decode(he.decode(req.body.trim()));
+    return this.removeHtmlTags(he.decode(he.decode(req.body.trim())));
   }
 
   async getPrereqs(termId, subject, courseNumber, subjectAbbreviationTable) {
@@ -121,6 +121,8 @@ class ClassParser {
       .filter((a) => regex.test(a))
       .map((a) => regex.exec(a)[1]);
   }
+
+  removeHtmlTags = (str) => str.replace(/(<([^>]+)>)/ig, '')
 
   /**
    * Makes a POST request to

@@ -1,6 +1,7 @@
 export default {
   getCourseAttributes1: '    Business Admin  UBBA ',
   getCourseAttributes2: '\n \n NUpath Natural/Designed World  NCND<br/> NU Core Science/Tech Lvl 1  NCT1<br/>Computer&amp;Info Sci  UBCS ',
+  getCourseDescription: 'Provides a small-group discussion format to cover material in CS 5001. <i>Coreq CS 5001.</i>',
   chem2311: {
     id: 17189,
     termEffective: '201110',

@@ -37,6 +37,13 @@ describe('classParser', () => {
     });
   });
 
+  describe('removeHtmlTags', () => {
+    it('removes html tags in course description', () => {
+      const actual = 'Provides a small-group discussion format to cover material in CS 5001. Coreq CS 5001.'
+      expect(ClassParser.removeHtmlTags(data.getCourseDescription)).toEqual(actual);
+    })
+  })
+
   describe('parseClassFromSearchResult', () => {
     it('parses and sends extra requests', async () => {
       expect(await ClassParser.parseClassFromSearchResult(data.chem2311, '202010')).toMatchSnapshot();
