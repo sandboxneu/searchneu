@@ -50,27 +50,13 @@ exports[`should render a section 1`] = `
           className="logo"
           src="file"
         />
-        <div
-          className="searchWrapper"
-          onBlur={[Function]}
-          onFocus={[Function]}
-        >
-          <SearchBar
-            onSearch={[Function]}
-            query=""
-          />
-        </div>
-        <Memo(TermDropdown)
-          onChange={[Function]}
+        <HomeSearch
+          setSearchFocused={[Function]}
+          setTermId={[Function]}
           termId="202030"
         />
         <div
-          className="hitEnterToSearch"
-        >
-          Hit Enter to Search ...
-        </div>
-        <div
-          className="atentionContainer"
+          className="attentionContainer"
           style={
             Object {
               "opacity": 1,

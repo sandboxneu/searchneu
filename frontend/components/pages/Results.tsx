@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useCallback } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import {
@@ -13,7 +13,6 @@ import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
 import SearchBar from '../ResultsPage/SearchBar';
-import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
@@ -26,10 +25,13 @@ import {
   FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_FILTER_SELECTION, areFiltersSet,
 } from '../ResultsPage/filters';
 import ResultsLoader from '../ResultsPage/ResultsLoader';
-import { BLANK_SEARCH_RESULT, SearchResult } from '../types';
-
+import {
+  BLANK_SEARCH_RESULT, SearchResult, termDropdownOptions, campusDropdownOptions,
+} from '../types';
+import SearchDropdown from '../ResultsPage/SearchDropdown';
 
 interface SearchParams {
+  campus: string,
   termId: string,
   query: string,
   filters: FilterSelection
@@ -58,22 +60,28 @@ const fetchResults = async ({ query, termId, filters }: SearchParams, page: numb
 export default function Results() {
   const atTop = useAtTop();
   const [showOverlay, setShowOverlay] = useQueryParam('overlay', BooleanParam);
-  const { termId, query = '' } = useParams();
+  const { campus, termId, query = '' } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
-  const setSearchQuery = (q: string) => { history.push(`/${termId}/${q}${history.location.search}`); }
-  const setTerm = useCallback((t: string) => { history.push(`/${t}/${query}${history.location.search}`); }, [history, query])
+
+  const setSearchQuery = (q: string) => { history.push(`/${campus}/${termId}/${q}${history.location.search}`); }
+  const setTerm = (t: string) => { history.push(`/${campus}/${t}/${query}${history.location.search}`); }
+  const setCampus = (c: string) => { history.push(`/${c}/${termId}/${query}${history.location.search}`); }
 
   const filters: FilterSelection = _.merge({}, DEFAULT_FILTER_SELECTION, qParams);
 
-  const searchParams: SearchParams = { termId, query, filters };
+  const searchParams: SearchParams = {
+    campus, termId, query, filters,
+  };
 
   const filtersAreSet: Boolean = areFiltersSet(filters);
 
   const us = useSearch(searchParams, BLANK_SEARCH_RESULT(), fetchResults);
+
   const {
     isReady, loadMore, doSearch,
   } = us;
+
   const { results, filterOptions } = us.results;
 
   useDeepCompareEffect(() => {
@@ -109,11 +117,29 @@ export default function Results() {
             } }
           />
         </div>
-        <TermDropdown
-          compact
-          termId={ termId }
-          onChange={ setTerm }
-        />
+        <div className='Breadcrumb_Container'>
+          <div className='Breadcrumb_Container__dropDownContainer'>
+            <SearchDropdown
+              options={ campusDropdownOptions }
+              value={ campus }
+              placeholder='NEU'
+              onChange={ setCampus }
+              className='searchDropdown'
+              compact={ false }
+            />
+          </div>
+          <span className='Breadcrumb_Container__slash'>/</span>
+          <div className='Breadcrumb_Container__dropDownContainer'>
+            <SearchDropdown
+              options={ termDropdownOptions }
+              value={ termId }
+              placeholder='Fall 2020'
+              onChange={ setTerm }
+              className='searchDropdown'
+              compact={ false }
+            />
+          </div>
+        </div>
       </div>
       {!macros.isMobile && <FeedbackModal />}
       <div className='Results_Container'>

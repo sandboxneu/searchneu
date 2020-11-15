@@ -23,11 +23,81 @@ exports[`should render a section 1`] = `
         query="cs"
       />
     </div>
-    <Memo(TermDropdown)
-      compact={true}
-      onChange={[Function]}
-      termId="202030"
-    />
+    <div
+      className="Breadcrumb_Container"
+    >
+      <div
+        className="Breadcrumb_Container__dropDownContainer"
+      >
+        <Memo(SearchDropdown)
+          className="searchDropdown"
+          compact={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "text": "NEU",
+                "value": "neu",
+              },
+              Object {
+                "text": "CPS",
+                "value": "cps",
+              },
+              Object {
+                "text": "Law",
+                "value": "law",
+              },
+            ]
+          }
+          placeholder="NEU"
+          value="NEU"
+        />
+      </div>
+      <span
+        className="Breadcrumb_Container__slash"
+      >
+        /
+      </span>
+      <div
+        className="Breadcrumb_Container__dropDownContainer"
+      >
+        <Memo(SearchDropdown)
+          className="searchDropdown"
+          compact={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "text": "Spring 2021",
+                "value": "202130",
+              },
+              Object {
+                "text": "Fall 2020",
+                "value": "202110",
+              },
+              Object {
+                "text": "Summer I 2020",
+                "value": "202040",
+              },
+              Object {
+                "text": "Summer II 2020",
+                "value": "202060",
+              },
+              Object {
+                "text": "Summer Full 2020",
+                "value": "202050",
+              },
+              Object {
+                "text": "Spring 2020",
+                "value": "202030",
+              },
+            ]
+          }
+          placeholder="Fall 2020"
+          value="202030"
+        />
+      </div>
+    </div>
   </div>
   <FeedbackModal />
   <div

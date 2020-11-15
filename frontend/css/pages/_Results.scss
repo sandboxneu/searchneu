@@ -112,3 +112,25 @@ $SIDEBAR_WIDTH: 268px;
   padding-right: 9px !important;
   font-size: inherit !important;
 }
+
+.Breadcrumb_Container {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  margin-left: 16px;
+
+  &__dropDownContainer {
+    border-radius: 5px 0 0 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+  }
+
+  &__slash {
+    font-size: 24px;
+    font-weight: initial;
+    color: #c4c4c4;
+    margin: auto 4px;
+  }
+}

@@ -3,16 +3,15 @@
  * See the license file in the root folder for details.
  */
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 import { useQueryParam, StringParam } from 'use-query-params';
-import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
 import boston from '../images/boston.svg';
 import macros from '../macros';
 import SplashPage from '../SplashPage/SplashPage';
 import Footer from '../Footer';
-import TermDropdown, { termDropDownOptions } from '../ResultsPage/TermDropdown';
+import HomeSearch from '../HomePage/HomeSearch'
+import { termDropdownOptions } from '../types'
 
 
 const ATTENTION_SECTION = {
@@ -25,10 +24,9 @@ const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 // The lastest term
 const LATEST_TERM = '202130';
 
-const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
+const AVAILABLE_TERMS = termDropdownOptions.map((t) => { return t.value; });
 
 export default function Home() {
-  const history = useHistory();
   const [termId = LATEST_TERM, setTermId] = useQueryParam('termId', StringParam); // Default to LATEST if term not in params
   // Redirect to latest if we're at an old term
   if (!AVAILABLE_TERMS.includes(termId)) {
@@ -48,7 +46,7 @@ export default function Home() {
 
   if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
     attentionSection = (
-      <div style={ actionCenterStyle } className='atentionContainer'>
+      <div style={ actionCenterStyle } className='attentionContainer'>
         <p className='helpFistRow' />
         Help improve Search NEU
         <p>
@@ -91,27 +89,7 @@ export default function Home() {
         >
           <div className='centerTextContainer'>
             <img src={ logo } className='logo' alt='logo' />
-            <div
-              className='searchWrapper'
-              onFocus={ () => { setSearchFocused(true); } }
-              onBlur={ () => { setSearchFocused(false); } }
-            >
-              <SearchBar
-                onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
-                query=''
-              />
-            </div>
-            <TermDropdown
-              termId={ termId }
-              onChange={ setTermId }
-            />
-            <div className={ cx({
-              hitEnterToSearch: true,
-              hitEnterToSearchVisible: searchFocused,
-            }) }
-            >
-              Hit Enter to Search ...
-            </div>
+            <HomeSearch setSearchFocused={ setSearchFocused } setTermId={ setTermId } termId={ termId } />
             {attentionSection}
           </div>
         </div>

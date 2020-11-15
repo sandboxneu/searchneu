@@ -22,7 +22,7 @@
 @import 'SearchHeader';
 @import 'Footer';
 @import 'SearchBar';
-@import 'TermDropDown';
+@import 'SearchDropdown';
 @import 'CheckboxFilter';
 @import 'FilterPanel';
 @import 'FilterPills';
@@ -35,6 +35,7 @@
 @import 'results/MobileSearchResult';
 @import 'results/MobileSectionPanel';
 @import 'results/NotifCheckBox';
+@import 'home/HomeSearch';
 
 html,
 body,

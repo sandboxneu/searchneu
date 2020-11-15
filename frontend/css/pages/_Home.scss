@@ -220,7 +220,8 @@
     visibility: visible;
   }
 
-  .atentionContainer {
+  .attentionContainer {
+    display: none;
     max-width: 95%;
     margin-left: auto;
     margin-right: auto;
@@ -273,7 +274,7 @@
       font-size: 18px !important;
     }
 
-    .atentionContainer {
+    .attentionContainer {
       font-size: 18px;
       margin-top: 0;
 
@@ -288,7 +289,7 @@
   }
 }
 
-.home-container.mobileCompact .atentionContainer {
+.home-container.mobileCompact .attentionContainer {
   display: none;
 }
 

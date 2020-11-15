@@ -5,7 +5,7 @@
  *
  * ONLY PUT COMMONLY USED TYPES HERE
  */
-
+import { DropdownItemProps } from 'semantic-ui-react';
 import { FilterOptions } from './ResultsPage/filters';
 import Course from './classModels/Course';
 import Section from './classModels/Section';
@@ -39,3 +39,45 @@ export enum DayOfWeek {
   FRIDAY,
   SATURDAY
 }
+
+export const termDropdownOptions: DropdownItemProps[] = [
+  {
+    text: 'Spring 2021',
+    value: '202130',
+  },
+  {
+    text: 'Fall 2020',
+    value: '202110',
+  },
+  {
+    text: 'Summer I 2020',
+    value: '202040',
+  },
+  {
+    text: 'Summer II 2020',
+    value: '202060',
+  },
+  {
+    text: 'Summer Full 2020',
+    value: '202050',
+  },
+  {
+    text: 'Spring 2020',
+    value: '202030',
+  },
+];
+
+export const campusDropdownOptions: DropdownItemProps[] = [
+  {
+    text: 'NEU',
+    value: 'neu',
+  },
+  {
+    text: 'CPS',
+    value: 'cps',
+  },
+  {
+    text: 'Law',
+    value: 'law',
+  },
+];

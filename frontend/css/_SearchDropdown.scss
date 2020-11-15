@@ -1,18 +1,22 @@
-.termdropdown {
+.searchDropdown {
   display: inline-block;
   max-width: 200px;
   color: #636363 !important;
   background: transparent !important;
-  margin: 0 auto;
   box-shadow: none !important;
   border: none !important;
   pointer-events: initial;
 
   & * {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: initial !important;
     border: none !important;
     color: #636363 !important;
+    line-height: 1.3em;
+  }
+
+  & > i {
+    line-height: 1.8em !important;
   }
 
   &--compact {
